@@ -2,7 +2,7 @@
 
 namespace PayPalIntegration.Controllers
 {
-    public class PaymentsController : Controller
+    public class PaymentsController : ControllerBase
     {
         public IActionResult Index()
         {
