@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using PaymentHub.Application.Interfaces;
+using PaymentHub.Application.Services;
 using PayPalIntegration.Application.Interfaces;
 using PayPalIntegration.Application.Services;
 using PayPalIntegration.Domain.Interfaces;
@@ -26,6 +28,7 @@ namespace PayPalIntegration.Application.Extensions
             services.AddHttpClient();
             services.AddControllers();
 
+            services.AddScoped<IPayPalAuthService, PayPalAuthService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
