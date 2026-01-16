@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PaymentHub.Application\PaymentHub.Application.csproj" />
+    <ProjectReference Include="..\PaymentHub.Configuration\PaymentHub.Configuration.csproj" />
     <ProjectReference Include="..\PaymentHub.Infrastructure\PaymentHub.Infrastructure.csproj" />
   </ItemGroup>
 
