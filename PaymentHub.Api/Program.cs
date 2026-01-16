@@ -3,7 +3,7 @@ using PayPalIntegration.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<PayPalDbContext>(options =>
+builder.Services.AddDbContext<PayHubContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.

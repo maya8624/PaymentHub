@@ -7,10 +7,10 @@ namespace PayPalIntegration.Infrastructure.Repositories
 {
     public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
-        private readonly PayPalDbContext _context;
+        private readonly PayHubContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public RepositoryBase(PayPalDbContext context)
+        public RepositoryBase(PayHubContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();

@@ -11,7 +11,7 @@ using PayPalIntegration.Infrastructure.Persistence;
 
 namespace PayPalIntegration.Infrastructure.Migrations
 {
-    [DbContext(typeof(PayPalDbContext))]
+    [DbContext(typeof(PayHubContext))]
     [Migration("20260115234809_CreateOrdersAndPaymentsTables")]
     partial class CreateOrdersAndPaymentsTables
     {

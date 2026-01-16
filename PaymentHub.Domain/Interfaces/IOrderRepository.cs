@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PayPalIntegration.Domain.Interfaces
 {
-    public interface IOrderRepository
+    public interface IOrderRepository : IRepositoryBase<Order>
     {
         Task<Order> GetByOrderNumber(string orderNumber);
     }

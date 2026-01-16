@@ -11,7 +11,7 @@ using PayPalIntegration.Infrastructure.Persistence;
 
 namespace PayPalIntegration.Infrastructure.Migrations
 {
-    [DbContext(typeof(PayPalDbContext))]
+    [DbContext(typeof(PayHubContext))]
     [Migration("20260116012726_ChangeTableNames")]
     partial class ChangeTableNames
     {

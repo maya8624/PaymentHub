@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PayPalIntegration.Application.Interfaces;
 using PayPalIntegration.Application.Requests;
 using PayPalIntegration.Domain.Entities;
 using PayPalIntegration.Domain.Enums;
@@ -9,26 +10,36 @@ namespace PayPalIntegration.Controllers
     [Route("api/payments")]
     public class OrderController : ControllerBase
     {
-        public OrderController()
+        private readonly IOrderService _orderService;
+
+        public OrderController(IOrderService orderService)
         {
-            
+            _orderService = orderService;
         }
 
-
+        /*
+            Frontend
+               ↓
+            Backend creates Order (Pending)
+               ↓
+            Backend creates PayPal Order
+               ↓
+            Store PayPalOrderId in DB
+               ↓
+            Frontend approves payment
+               ↓
+            Backend captures payment
+               ↓
+            Mark Order as Paid
+               ↓
+            Webhook confirms final state
+         */
+        
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] CreateOrderRequest request)
         {
-            var order = new Order
-            {
-                Id = Guid.NewGuid(),
-                OrderNumber = $"ORD-{DateTimeOffset.UtcNow:yyyyMMddHHmmss}",
-                Amount = request.Amount,
-                Currency = request.Currency,
-                Status = OrderStatus.Pending,
-                CreatedAt = DateTimeOffset.UtcNow
-            };
-
-            return Ok();
+            var order = await _orderService.CreateOrder(request);
+            return CreatedAtAction(nameof(Create), new { id = order.Id });
         }
     }
 }

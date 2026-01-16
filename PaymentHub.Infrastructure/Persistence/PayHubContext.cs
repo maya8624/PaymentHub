@@ -9,12 +9,15 @@ using System.Threading.Tasks;
 
 namespace PayPalIntegration.Infrastructure.Persistence
 {
-    public class PayPalDbContext : DbContext
+    public class PayHubContext : DbContext
     {
-        public PayPalDbContext(DbContextOptions<PayPalDbContext> options) : base(options)
+        public PayHubContext(DbContextOptions<PayHubContext> options) : base(options)
         {
         }
-        
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+        }
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<Payment> Payments { get; set; }

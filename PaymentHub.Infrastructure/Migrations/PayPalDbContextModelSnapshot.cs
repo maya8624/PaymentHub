@@ -10,7 +10,7 @@ using PayPalIntegration.Infrastructure.Persistence;
 
 namespace PayPalIntegration.Infrastructure.Migrations
 {
-    [DbContext(typeof(PayPalDbContext))]
+    [DbContext(typeof(PayHubContext))]
     partial class PayPalDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

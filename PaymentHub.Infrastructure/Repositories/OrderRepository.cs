@@ -12,9 +12,9 @@ namespace PayPalIntegration.Infrastructure.Repositories
 {
     public class OrderRepository : RepositoryBase<Order>, IOrderRepository
     {
-        private readonly PayPalDbContext _context;
+        private readonly PayHubContext _context;
 
-        public OrderRepository(PayPalDbContext context) : base(context) 
+        public OrderRepository(PayHubContext context) : base(context) 
         {
             _context = context;
         }
@@ -23,7 +23,6 @@ namespace PayPalIntegration.Infrastructure.Repositories
         {
             return await _context.Orders
                 .AsNoTracking()
-                .Include(x => x.Payment)
                 .FirstOrDefaultAsync(x => x.OrderNumber == orderNumber);
         }
     }

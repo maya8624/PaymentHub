@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PayPalIntegration.Domain.Enums
+namespace PaymentHub.Domain.Enums
 {
-    public enum OrderStatus
+    public enum PaymentProvider
     {
-        Pending,
-        Completed,
-        Failed,
+        PayPal,
     }
 }
