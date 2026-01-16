@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using PaymentHub.Application.Interfaces;
+using PaymentHub.Configuration;
 using PayPalIntegration.Domain.Enums;
 using System;
 using System.Net.Http.Json;
@@ -12,23 +14,12 @@ namespace PaymentHub.Application.Services
     public class PayPalService : IPayPalService
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IConfiguration _config;
-        private readonly string _clientId;
-        private readonly string _secret;
-        private readonly string _baseUrl;
-        private readonly string _currency;
+        private readonly PayPalSettings _settings;
 
-        public PayPalService(IHttpClientFactory httpClientFactory, IConfiguration config)
+        public PayPalService(IHttpClientFactory httpClientFactory, IOptions<PayPalSettings> options)
         {
             _httpClientFactory = httpClientFactory;
-            _config = config;
-
-
-            // bring using statements for Microsoft.Extensions.Configuration
-            _clientId = config["PayPal:ClientId"]!;
-            _secret = config["PayPal:Secret"]!;
-            _baseUrl = config["PayPal:SandboxBaseUrl"]!;
-            _currency = config["PayPal:Currency"]!;
+            _settings = options.Value;
         }
 
         public async Task<string> CreateOrder(decimal amount, string currencyCode)
@@ -56,7 +47,10 @@ namespace PaymentHub.Application.Services
 
         private async Task<string> GetAccessTokenAsync()
         {
-            var auth = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_clientId}:{_secret}"));
+            var byteArray = Encoding.UTF8.GetBytes($"{_settings.ClientId}:{_settings.Secret}");
+            var auth = Convert.ToBase64String(byteArray);
+
+            var url = new Uri(new Uri(_settings.SandboxBaseUrl), _settings.SandboxTokenUrl);
             var request = new HttpRequestMessage(HttpMethod.Post, "https://api-m.sandbox.paypal.com/v1/oauth2/token");
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", auth);
             request.Content = new FormUrlEncodedContent(new Dictionary<string, string> { { "grant_type", "client_credentials" } });

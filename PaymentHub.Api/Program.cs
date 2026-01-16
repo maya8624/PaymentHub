@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using PaymentHub.Application.Services;
+using PaymentHub.Configuration;
 using PayPalIntegration.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<PayHubContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add services to the container.
+// Bind PayPal settings from appsettings.json
+builder.Services.Configure<PayPalSettings>(builder.Configuration.GetSection("PayPal"));
+builder.Services.AddScoped<PayPalService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
