@@ -8,6 +8,5 @@
         public string SandboxTokenUrl { get; set; }
         public string SandboxCreateOrderUrl { get; set; }
         public string SandboxCaptureOrderUrl { get; set; }
-
     }
 }

@@ -1,27 +1,24 @@
-﻿using PaymentHub.Application.Interfaces;
-using PaymentHub.Application.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.Http;
-using System.Runtime;
+﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using PaymentHub.Configuration;
-using PaymentHub.Application.Extensions;
+using PaymentHub.Network.Extensions;
+using PaymentHub.Network.Interfaces;
+using PaymentHub.Network.Responses;
 
-namespace PaymentHub.Application.Services
+namespace PaymentHub.Network.Services
 {
     public class PayPalAuthService : IPayPalAuthService
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly Logger<PayPalAuthService> _logger;
         private readonly PayPalSettings _settings;
 
-        public PayPalAuthService(IHttpClientFactory httpClientFactory, PayPalSettings settings)
+        public PayPalAuthService(IHttpClientFactory httpClientFactory, Logger<PayPalAuthService> logger,PayPalSettings settings)
         {
             _httpClientFactory = httpClientFactory;
+            _logger = logger;
             _settings = settings;
         }
 
@@ -43,16 +40,22 @@ namespace PaymentHub.Application.Services
             var response = await http.SendAsync(request);
 
             if (response.IsSuccessStatusCode == false)
-                return null;
+            { 
+                var failureReason = HttpStatusFailureMap.Resolve(response.StatusCode);
+
+                _logger.LogWarning(
+                    "HTTP request failed with {StatusCode} mapped to {FailureReason}",
+                    response.StatusCode,
+                    failureReason);
+            }
+
 
             var raw = await response.Content.ReadAsStringAsync();
             var tokenResponse = JsonSerializer.Deserialize<PayPalTokenResponse>(raw);
             var token = tokenResponse?.AccessToken;
 
             if (tokenResponse is null || string.IsNullOrWhiteSpace(tokenResponse.AccessToken))
-            {
-
-            }
+                _logger.LogError("Failed to obtain PayPal access token.");
 
             return token;
         }

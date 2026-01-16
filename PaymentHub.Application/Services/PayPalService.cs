@@ -1,9 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using PaymentHub.Application.Extensions;
+﻿using Microsoft.Extensions.Options;
 using PaymentHub.Application.Interfaces;
-using PaymentHub.Application.Responses;
 using PaymentHub.Configuration;
+using PaymentHub.Network.Extensions;
+using PaymentHub.Network.Interfaces;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
@@ -27,16 +26,21 @@ namespace PaymentHub.Application.Services
         public async Task<string> CreateOrder(decimal amount, string currencyCode)
         {
             var token = await _authService.GetAccessToken();
+            
+            var url = _settings.SandboxBaseUrl.CombineUrl(_settings.SandboxCreateOrderUrl);
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://api-m.sandbox.paypal.com/v2/checkout/orders");
+            var request = new HttpRequestMessage(HttpMethod.Post, url);
+            
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             request.Content = JsonContent.Create(new
             {
                 intent = "CAPTURE",
                 purchase_units = new[]
                 {
-                new { amount = new { currency_code = currencyCode, value = amount.ToString("F2") } }
+                    new 
+                    { 
+                        amount = new { currency_code = currencyCode, value = amount.ToString("F2")} 
+                    }
             }
             });
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Application.Interfaces
+namespace PaymentHub.Network.Interfaces
 {
     public interface IPayPalAuthService
     {

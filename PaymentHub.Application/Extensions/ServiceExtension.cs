@@ -8,16 +8,6 @@ namespace PaymentHub.Application.Extensions
 {
     public static class ServiceExtension
     {
-        public static string CombineUrl(this string baseUrl, string subUrl)
-        {
-            // TODO: apply a custom exception
-            if (string.IsNullOrWhiteSpace(baseUrl))
-                throw new ArgumentNullException(nameof(baseUrl));
-
-            if (string.IsNullOrWhiteSpace(subUrl))
-                return baseUrl;
-
-            return new Uri(new Uri(baseUrl), subUrl).ToString();
-        }
+        
     }
 }
