@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi;
 using PaymentHub.Application.Services;
 using PaymentHub.Configuration;
 using PayPalIntegration.Infrastructure.Persistence;
+using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +19,33 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "PaymentHub", Version = "v1" });
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Description = "Standard Authorization header using the Bearer scheme",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer"
+    });
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
+
 var app = builder.Build();
+
+app.UseExceptionHandler(appBuilder =>
+{
+    appBuilder.Run(async context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = "application/json";
+
+        var errorResponse = new { message = "An unexpected error occurred." };
+        await context.Response.WriteAsJsonAsync(errorResponse);
+    });
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
