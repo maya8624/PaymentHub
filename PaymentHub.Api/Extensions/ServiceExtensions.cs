@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using PaymentHub.Application.Interfaces;
 using PaymentHub.Application.Services;
+using PaymentHub.Network.Interfaces;
+using PaymentHub.Network.Services;
 using PayPalIntegration.Application.Interfaces;
 using PayPalIntegration.Application.Services;
 using PayPalIntegration.Domain.Interfaces;

@@ -14,6 +14,11 @@
   <ItemGroup>
     <ProjectReference Include="..\PaymentHub.Configuration\PaymentHub.Configuration.csproj" />
     <ProjectReference Include="..\PaymentHub.Domain\PaymentHub.Domain.csproj" />
+    <ProjectReference Include="..\PaymentHub.Network\PaymentHub.Network.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Responses\" />
   </ItemGroup>
 
 </Project>
