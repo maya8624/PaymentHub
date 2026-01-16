@@ -16,7 +16,7 @@ namespace PayPalIntegration.Infrastructure.Persistence
         }
         
 
-        public DbSet<Order> Business { get; set; }
-        public DbSet<Payment> Customers { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Payment> Payments { get; set; }
     }
 }
