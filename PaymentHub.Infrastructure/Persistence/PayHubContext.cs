@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using PaymentHub.Domain.Entities;
 using PayPalIntegration.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -20,6 +20,7 @@ namespace PayPalIntegration.Infrastructure.Persistence
         }
 
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
     }
 }

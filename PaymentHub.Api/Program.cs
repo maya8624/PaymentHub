@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using PaymentHub.Application.Services;
 using PaymentHub.Configuration;
+using PayPalIntegration.Application.Extensions;
 using PayPalIntegration.Infrastructure.Persistence;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -10,9 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<PayHubContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddServices();
+
 // Bind PayPal settings from appsettings.json
-builder.Services.Configure<PayPalSettings>(builder.Configuration.GetSection("PayPal"));
-builder.Services.AddScoped<PayPalService>();
+builder.Services.Configure<PayPalSettings>(builder.Configuration.GetSection("PayPalSettings"));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -14,7 +14,7 @@ namespace PayPalIntegration.Application.Extensions
 {
     public static class ServiceExtensions
     {
-        public static void AddService(this IServiceCollection services)
+        public static void AddServices(this IServiceCollection services)
         {
             services.AddCors(options =>
             {

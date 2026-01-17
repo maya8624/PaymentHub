@@ -1,11 +1,7 @@
-﻿using PaymentHub.Application.Constants;
-using PaymentHub.Application.Dtos;
-using PaymentHub.Application.Services;
+﻿using PaymentHub.Application.Dtos;
 using PaymentHub.Domain.Entities;
-using PayPalIntegration.Application.Dtos;
 using PayPalIntegration.Application.Interfaces;
 using PayPalIntegration.Domain.Entities;
-using PayPalIntegration.Domain.Enums;
 using PayPalIntegration.Domain.Interfaces;
 
 namespace PayPalIntegration.Application.Services
@@ -37,7 +33,7 @@ namespace PayPalIntegration.Application.Services
                 UnitPrice = x.UnitPrice
             }).ToList();
 
-            var totalAmount = items.Sum(i => i.Quantity * i.UnitPrice);
+            var totalAmount = items.Sum(x => x.Quantity * x.UnitPrice);
             
             var order = new Order
             {

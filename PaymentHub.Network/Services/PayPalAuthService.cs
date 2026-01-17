@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using PaymentHub.Configuration;
 using PaymentHub.Network.Enums;
 using PaymentHub.Network.Exceptions;
@@ -14,14 +15,14 @@ namespace PaymentHub.Network.Services
     public class PayPalAuthService : IPayPalAuthService
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly Logger<PayPalAuthService> _logger;
+        private readonly ILogger<PayPalAuthService> _logger;
         private readonly PayPalSettings _settings;
 
-        public PayPalAuthService(IHttpClientFactory httpClientFactory, Logger<PayPalAuthService> logger,PayPalSettings settings)
+        public PayPalAuthService(IHttpClientFactory httpClientFactory, ILogger<PayPalAuthService> logger, IOptions<PayPalSettings> settings)
         {
             _httpClientFactory = httpClientFactory;
             _logger = logger;
-            _settings = settings;
+            _settings = settings.Value;
         }
 
         public async Task<string> GetAccessToken()
