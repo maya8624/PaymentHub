@@ -9,8 +9,10 @@ namespace PayPalIntegration.Domain.Enums
     public enum PaymentStatus
     {
         Pending,
+        Completed,
         Captured,
         Failed,
-        Refunded
+        Refunded,
+        Rejected
     }
 }

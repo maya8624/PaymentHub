@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PaymentHub.Application.Dtos;
 using PaymentHub.Application.Interfaces;
 
 namespace PaymentHub.Api.Controllers
@@ -21,11 +22,11 @@ namespace PaymentHub.Api.Controllers
             return Ok(new { paypalOrderId });
         }
 
-        //[HttpPost("paypal/capture-order/{orderId}")]
-        //public async Task<IActionResult> CaptureOrder(int orderId)
-        //{
-        //    var result = await _paypalService.CapturePayPalOrderAsync(orderId);
-        //    return Ok(result);
-        //}
+        [HttpPost("capture-order/{orderId:int}")]
+        public async Task<ActionResult<PayPalCaptureResponse>> CaptureOrder(int orderId)
+        {
+            var result = await _paypalService.CaptureOrder(orderId);
+            return Ok(result);
+        }
     }
 }

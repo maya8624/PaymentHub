@@ -1,6 +1,4 @@
 ﻿using PaymentHub.Application.Dtos;
-using PayPalIntegration.Application.Dtos;
-using PayPalIntegration.Domain.Entities;
 
 namespace PayPalIntegration.Application.Interfaces
 {

@@ -1,4 +1,5 @@
 ﻿using PayPalIntegration.Domain.Entities;
+using PayPalIntegration.Domain.Enums;
 using PayPalIntegration.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,8 @@ namespace PaymentHub.Infrastructure.Interfaces
 {
     public interface IPaymentRepository : IRepositoryBase<Payment>
     {
+        Task<Payment?> GetByOrderId(int orderId);
+        Task<Payment?> GetPending(int orderId, string providerOrderId, PaymentStatus status);
+        Task<Payment?> GetByProviderOrderId(string providerOrderId);
     }
 }

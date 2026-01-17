@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PaymentHub.Network.Extensions
 {
-    public static class NetworkExtensiion
+    public static class NetworkExtension
     {
         public static string CombineUrl(this string baseUrl, string subUrl)
         {

@@ -11,13 +11,10 @@ namespace PaymentHub.Application.Dtos
     {
         public int OrderId { get; set; }
 
-        public OrderStatus Status { get; set; }  // Pending, Paid, Failed
+        public OrderStatus Status { get; set; } 
 
         public decimal TotalAmount { get; set; }
-
-        /// <summary>
-        /// Echoed back so frontend can safely reuse it after refresh
-        /// </summary>
+        
         public string FrontendIdempotencyKey { get; set; }
 
         public List<OrderItemResponse> Items { get; set; } = [];

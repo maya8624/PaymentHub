@@ -9,7 +9,5 @@ namespace PaymentHub.Application.Interfaces
 {
     public interface IPaymentService
     {
-        Task SavePayment(Payment payment);
-        Task UpdatePayment(Payment payment);
     }
 }

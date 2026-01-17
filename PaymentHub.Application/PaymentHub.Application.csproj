@@ -18,8 +18,4 @@
     <ProjectReference Include="..\PaymentHub.Network\PaymentHub.Network.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
 </Project>

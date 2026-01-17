@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PaymentHub.Application.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,18 +9,18 @@ namespace PaymentHub.Application.Exceptions
 {
     public class PaymentSaveException : Exception
     {
-        public int OrderId { get; }
+        public ApplicationErrorCodes ErrorCode { get; }
 
-        public PaymentSaveException(int orderId, string message)
+        public PaymentSaveException(ApplicationErrorCodes errorCode, string message)
             : base(message)
         {
-            OrderId = orderId;
+            ErrorCode = errorCode;
         }
 
-        public PaymentSaveException(int orderId, string message, Exception innerException)
+        public PaymentSaveException(ApplicationErrorCodes errorCode, string message, Exception innerException)
             : base(message, innerException)
         {
-            OrderId = orderId;
+            ErrorCode = errorCode;
         }
     }
 }

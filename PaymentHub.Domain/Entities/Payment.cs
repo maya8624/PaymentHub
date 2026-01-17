@@ -12,11 +12,13 @@ namespace PayPalIntegration.Domain.Entities
         public PaymentStatus Status { get; set; } = PaymentStatus.Pending;
         public string? ProviderCaptureId { get; set; }
         public decimal Amount { get; set; }
-        public string BackendIdempotencyKey { get; set; } = Guid.NewGuid().ToString();
+        public decimal CapturedAmount { get; set; }
+        public string BackendIdempotencyKey { get; set; }
         public Currency Currency { get; set; } = Currency.AUD;
+        public DateTimeOffset? CapturedAt { get; set; }
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
-        //public DateTimeOffset? CapturedAt { get; set; }
+        public string RawResponse { get; set; }
 
         public Order Order { get; set; } = null!;
     }

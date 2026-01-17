@@ -15,7 +15,7 @@ namespace PayPalIntegration.Domain.Entities
         public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
 
         public ICollection<OrderItem> Items { get; set; } = [];
-        public ICollection<Payment> Payments { get; set; } = [];
+        public Payment Payment { get; set; }
 
         //public IReadOnlyCollection<Payment> Payments => _payments;
         //private readonly List<Payment> _payments = new();

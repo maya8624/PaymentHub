@@ -27,33 +27,5 @@ namespace PaymentHub.Application.Services
             _logger = logger;
             _uow = uow;
         }
-
-        public async Task SavePayment(Payment payment)
-        {
-            try
-            {
-                await _paymentRepository.Create(payment);
-                await _uow.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to save Payment record for Order {OrderId}", payment.OrderId);
-                throw new PaymentSaveException(payment.OrderId, "Could not save payment record. Please try again.");
-            }
-        }
-
-        public async Task UpdatePayment(Payment payment)
-        {
-            try
-            {
-                _paymentRepository.Update(payment);
-                await _uow.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to update Payment record for Order {OrderId}", payment.OrderId);
-                throw new PaymentSaveException(payment.OrderId, "Failed to process payment. Please try again.");
-            }
-        }
     }
 }
