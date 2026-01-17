@@ -3,6 +3,8 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using PaymentHub.Configuration;
+using PaymentHub.Network.Enums;
+using PaymentHub.Network.Exceptions;
 using PaymentHub.Network.Extensions;
 using PaymentHub.Network.Interfaces;
 using PaymentHub.Network.Responses;
@@ -36,6 +38,7 @@ namespace PaymentHub.Network.Services
                 { "grant_type", "client_credentials" }
             });
 
+
             using var http = _httpClientFactory.CreateClient();
             var response = await http.SendAsync(request);
 
@@ -49,14 +52,19 @@ namespace PaymentHub.Network.Services
                     failureReason);
             }
 
-
             var raw = await response.Content.ReadAsStringAsync();
             var tokenResponse = JsonSerializer.Deserialize<PayPalTokenResponse>(raw);
             var token = tokenResponse?.AccessToken;
 
-            if (tokenResponse is null || string.IsNullOrWhiteSpace(tokenResponse.AccessToken))
+            if (token == null || string.IsNullOrWhiteSpace(token))
+            {
                 _logger.LogError("Failed to obtain PayPal access token.");
 
+                throw new PayPalAuthenticationException(
+                    ErrorCodes.PayPalTokenMissing,
+                    "PayPal token response was invalid or missing access token.");
+            }
+            
             return token;
         }
     }

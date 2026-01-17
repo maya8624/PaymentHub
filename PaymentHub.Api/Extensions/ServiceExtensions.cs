@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using PaymentHub.Application.Dtos;
 using PaymentHub.Application.Interfaces;
 using PaymentHub.Application.Services;
 using PaymentHub.Network.Interfaces;
@@ -34,7 +35,7 @@ namespace PayPalIntegration.Application.Extensions
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            //services.AddScoped<IValidator<BusinessRequest>, BusinessValidator>();
+            services.AddScoped<IValidator<CreateOrderRequest>, CreateOrderRequestValidator>();
             //services.AddScoped<IValidator<CustomerRequest>, CustomerValidator>();
             //services.AddScoped<IValidator<LogInRequest>, LogInValidator>();
             //services.AddScoped<IValidator<MenuRequest>, MenuRequestValidator>();

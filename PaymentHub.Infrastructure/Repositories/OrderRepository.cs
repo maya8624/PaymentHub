@@ -19,11 +19,19 @@ namespace PayPalIntegration.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Order?> GetByOrderNumber(string orderNumber)
-        {
+        
+        //public async Task<Order?> GetByOrderNumber(string orderNumber)
+        //{
+        //    return await _context.Orders
+        //        .AsNoTracking()
+        //        .FirstOrDefaultAsync(x => x.OrderNumber == orderNumber);
+        //}
+
+        public async Task<Order> GetOrderByFrontendIdempontentKey(string key, int userId)
+        { 
             return await _context.Orders
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.OrderNumber == orderNumber);
+                .FirstOrDefaultAsync(x => x.FrontendIdempotencyKey == key && x.UserId == userId);
         }
     }
 }

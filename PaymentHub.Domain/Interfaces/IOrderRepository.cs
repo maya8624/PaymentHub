@@ -9,6 +9,7 @@ namespace PayPalIntegration.Domain.Interfaces
 {
     public interface IOrderRepository : IRepositoryBase<Order>
     {
-        Task<Order> GetByOrderNumber(string orderNumber);
+        Task<Order> GetOrderByFrontendIdempontentKey(string key, int userId);
+        //Task<Order> GetByOrderNumber(string orderNumber);
     }
 }

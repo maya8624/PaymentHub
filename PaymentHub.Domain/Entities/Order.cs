@@ -1,33 +1,37 @@
-﻿using PayPalIntegration.Domain.Enums;
+﻿using PaymentHub.Domain.Entities;
+using PayPalIntegration.Domain.Enums;
 
 namespace PayPalIntegration.Domain.Entities
 {
     public class Order
     {
-        public Guid Id { get; set; }
-        public decimal Amount { get; set; }
-        public Currency Currency { get; set; } = Currency.AUD;
-        public string OrderNumber { get; set; } = null!;
+        public int Id { get; set; }
+        public decimal TotalAmount { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
+        public Currency Currency { get; set; } = Currency.AUD;
+        public string FrontendIdempotencyKey { get; set; } 
         public int UserId { get; set; }
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
-        public DateTimeOffset? CompletedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
 
-        public IReadOnlyCollection<Payment> Payments => _payments;
-        private readonly List<Payment> _payments = new();
+        public ICollection<OrderItem> Items { get; set; } = [];
+        public ICollection<Payment> Payments { get; set; } = [];
 
-        public void AddPayment(Payment payment)
-        {
-            if (payment == null)
-                throw new ArgumentNullException(nameof(payment));
+        //public IReadOnlyCollection<Payment> Payments => _payments;
+        //private readonly List<Payment> _payments = new();
 
-            _payments.Add(payment);
-        }
+        //public void AddPayment(Payment payment)
+        //{
+        //    if (payment == null)
+        //        throw new ArgumentNullException(nameof(payment));
 
-        public void MarkCompleted()
-        {
-            Status = OrderStatus.Completed;
-            CompletedAt = DateTimeOffset.UtcNow;
-        }
+        //    _payments.Add(payment);
+        //}
+
+        //public void MarkCompleted()
+        //{
+        //    Status = OrderStatus.Completed;
+        //    CompletedAt = DateTimeOffset.UtcNow;
+        //}
     }
 }

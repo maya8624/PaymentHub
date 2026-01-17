@@ -1,8 +1,9 @@
 ﻿using PaymentHub.Application.Constants;
+using PaymentHub.Application.Dtos;
 using PaymentHub.Application.Services;
+using PaymentHub.Domain.Entities;
 using PayPalIntegration.Application.Dtos;
 using PayPalIntegration.Application.Interfaces;
-using PayPalIntegration.Application.Requests;
 using PayPalIntegration.Domain.Entities;
 using PayPalIntegration.Domain.Enums;
 using PayPalIntegration.Domain.Interfaces;
@@ -20,34 +21,56 @@ namespace PayPalIntegration.Application.Services
             _uow = uow;
         }
 
-        public async Task<OrderDto> CreateOrder(CreateOrderRequest request)
+        public async Task<OrderResponse> CreateOrder(int userId, string frontendIdempotencyKey, List<CreateOrderItemRequest> items)
         {
+            var existing = await _orderRepository
+                .GetOrderByFrontendIdempontentKey(frontendIdempotencyKey, userId);
+
+             if (existing != null)
+                return MapToOrderResponse(existing);
+
+            var orderItems = items.Select(x => new OrderItem
+            {
+                ProductId = x.ProductId,
+                ProductName = x.ProductName,
+                Quantity = x.Quantity,
+                UnitPrice = x.UnitPrice
+            }).ToList();
+
+            var totalAmount = items.Sum(i => i.Quantity * i.UnitPrice);
+            
             var order = new Order
             {
-                Id = Guid.NewGuid(),
-                OrderNumber = OrderNumberGenerator.Generate(),
-                Amount = request.Quantity * ProductPrices.ProductPriceA,   
-                Currency = request.Currency,
-                Status = OrderStatus.Pending,
-                CreatedAt = DateTimeOffset.UtcNow,
-                //UserId = request.UserId
+                UserId = userId,
+                FrontendIdempotencyKey = frontendIdempotencyKey,
+                TotalAmount = totalAmount,
+                Items = orderItems
             };
 
             await _orderRepository.Create(order);
             await _uow.SaveChanges();
 
-            var result = new OrderDto
+            return MapToOrderResponse(order);
+        }
+
+        private static OrderResponse MapToOrderResponse(Order order)
+        {
+            return new OrderResponse
             {
-                Id = order.Id,
-                //    order.OrderNumber,
-                //    order.Amount,
-                //    order.Currency,
-                //    order.Status.ToString(),
-                //    order.CreatedAt
-
+                OrderId = order.Id,
+                Status = order.Status,
+                TotalAmount = order.TotalAmount,
+                FrontendIdempotencyKey = order.FrontendIdempotencyKey,
+                CreatedAt = order.CreatedAt,
+                Items = order.Items.Select(x => new OrderItemResponse
+                {
+                    ProductId = x.ProductId,
+                    ProductName = x.ProductName,
+                    Quantity = x.Quantity,
+                    UnitPrice = x.UnitPrice,
+                    TotalPrice = x.Quantity * x.UnitPrice
+                }).ToList()
             };
-
-            return result;
         }
     }
 }

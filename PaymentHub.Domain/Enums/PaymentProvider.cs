@@ -9,5 +9,6 @@ namespace PaymentHub.Domain.Enums
     public enum PaymentProvider
     {
         PayPal,
+        Card
     }
 }

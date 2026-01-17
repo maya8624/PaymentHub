@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PaymentHub.Application.Dtos;
 using PayPalIntegration.Application.Interfaces;
-using PayPalIntegration.Application.Requests;
 using PayPalIntegration.Domain.Entities;
 using PayPalIntegration.Domain.Enums;
 
@@ -36,10 +36,14 @@ namespace PayPalIntegration.Controllers
          */
         
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] CreateOrderRequest request)
+        public async Task<ActionResult<OrderResponse>> Create([FromBody] CreateOrderRequest request)
         {
-            var order = await _orderService.CreateOrder(request);
-            return CreatedAtAction(nameof(Create), new { id = order.Id });
+            var order = await _orderService.CreateOrder(
+                request.UserId, 
+                request.FrontendIdempotencyKey, 
+                request.Items);
+
+            return Ok(order);
         }
     }
 }
