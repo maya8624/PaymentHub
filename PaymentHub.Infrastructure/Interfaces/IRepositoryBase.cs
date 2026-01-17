@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace PayPalIntegration.Domain.Interfaces
+namespace PayPalIntegration.Infrastructure.Interfaces
 {
     public interface IRepositoryBase<T> where T : class
     {

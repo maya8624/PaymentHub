@@ -7,7 +7,7 @@ using PayPalIntegration.Domain.Enums;
 namespace PayPalIntegration.Controllers
 {
     [ApiController]
-    [Route("api/payments")]
+    [Route("api/orders")]
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;

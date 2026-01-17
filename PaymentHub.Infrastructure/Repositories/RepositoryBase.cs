@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PayPalIntegration.Domain.Interfaces;
+using PayPalIntegration.Infrastructure.Interfaces;
 using PayPalIntegration.Infrastructure.Persistence;
 using System.Linq.Expressions;
 

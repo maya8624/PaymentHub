@@ -10,7 +10,7 @@ namespace PayPalIntegration.Domain.Entities
         public PaymentProvider Provider { get; set; } 
         public string ProviderOrderId { get; set; } = null!;
         public PaymentStatus Status { get; set; } = PaymentStatus.Pending;
-        //public string? ProviderCaptureId { get; set; }
+        public string? ProviderCaptureId { get; set; }
         public decimal Amount { get; set; }
         public string BackendIdempotencyKey { get; set; } = Guid.NewGuid().ToString();
         public Currency Currency { get; set; } = Currency.AUD;

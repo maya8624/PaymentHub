@@ -2,12 +2,14 @@
 using PaymentHub.Application.Dtos;
 using PaymentHub.Application.Interfaces;
 using PaymentHub.Application.Services;
+using PaymentHub.Infrastructure.Interfaces;
+using PaymentHub.Infrastructure.Repositories;
 using PaymentHub.Network.Interfaces;
 using PaymentHub.Network.Services;
 using PayPalIntegration.Application.Interfaces;
 using PayPalIntegration.Application.Services;
-using PayPalIntegration.Domain.Interfaces;
 using PayPalIntegration.Infrastructure;
+using PayPalIntegration.Infrastructure.Interfaces;
 using PayPalIntegration.Infrastructure.Repositories;
 
 namespace PayPalIntegration.Application.Extensions
@@ -33,15 +35,12 @@ namespace PayPalIntegration.Application.Extensions
 
             services.AddScoped<IPayPalAuthService, PayPalAuthService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IPaymentService, PaymentServcie>();
+            services.AddScoped<IPayPalService, PayPalService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IValidator<CreateOrderRequest>, CreateOrderRequestValidator>();
-            //services.AddScoped<IValidator<CustomerRequest>, CustomerValidator>();
-            //services.AddScoped<IValidator<LogInRequest>, LogInValidator>();
-            //services.AddScoped<IValidator<MenuRequest>, MenuRequestValidator>();
-            //services.AddScoped<IValidator<MenuPatchRequest>, MenuPatchRequestValidator>();
-            //services.AddScoped<IValidator<MessageRequest>, MessageValidator>();
-            //services.AddScoped<IValidator<RegisterRequest>, RegisterValidator>();
         }
     }
 }

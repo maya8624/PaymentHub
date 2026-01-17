@@ -1,10 +1,12 @@
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
-using PaymentHub.Application.Services;
+using PaymentHub.Application.Exceptions;
 using PaymentHub.Configuration;
 using PayPalIntegration.Application.Extensions;
 using PayPalIntegration.Infrastructure.Persistence;
 using Swashbuckle.AspNetCore.Filters;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,11 +43,26 @@ app.UseExceptionHandler(appBuilder =>
 {
     appBuilder.Run(async context =>
     {
-        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
         context.Response.ContentType = "application/json";
 
-        var errorResponse = new { message = "An unexpected error occurred." };
-        await context.Response.WriteAsJsonAsync(errorResponse);
+        var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+
+        if (exception is NotFoundException notFoundEx)
+        {
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            await context.Response.WriteAsync(
+                JsonSerializer.Serialize(new
+                {
+                    error = notFoundEx.Message,
+                    errorCode = notFoundEx.ErrorCode
+                }));
+        }
+        else
+        {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            await context.Response.WriteAsync(
+                JsonSerializer.Serialize(new { error = "An unexpected error occurred" }));
+        }
     });
 });
 

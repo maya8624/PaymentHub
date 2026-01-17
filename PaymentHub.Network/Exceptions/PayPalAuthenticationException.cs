@@ -9,15 +9,17 @@ namespace PaymentHub.Network.Exceptions
 {
     public class PayPalAuthenticationException : Exception
     {
-        public ErrorCodes ErrorCode { get; }
+        public PayPalErrorCodes ErrorCode { get; }
 
-        public PayPalAuthenticationException(ErrorCodes errorCode, string message)
+        public PayPalAuthenticationException() { }
+
+        public PayPalAuthenticationException(PayPalErrorCodes errorCode, string message)
             : base(message)
         {
             ErrorCode = errorCode;
         }
 
-        public PayPalAuthenticationException(ErrorCodes errorCode, string message, Exception innerException) 
+        public PayPalAuthenticationException(PayPalErrorCodes errorCode, string message, Exception innerException) 
             : base(message, innerException)
         {
             ErrorCode = errorCode;

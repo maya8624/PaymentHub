@@ -2,7 +2,7 @@
 using PaymentHub.Domain.Entities;
 using PayPalIntegration.Application.Interfaces;
 using PayPalIntegration.Domain.Entities;
-using PayPalIntegration.Domain.Interfaces;
+using PayPalIntegration.Infrastructure.Interfaces;
 
 namespace PayPalIntegration.Application.Services
 {

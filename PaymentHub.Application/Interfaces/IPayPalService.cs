@@ -8,6 +8,6 @@ namespace PaymentHub.Application.Interfaces
 {
     public interface IPayPalService
     {
-        Task<string> CreateOrder(decimal amount, string currencyCode);
+        Task<string> CreateOrder(int orderId);
     }
 }

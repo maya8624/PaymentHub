@@ -62,7 +62,7 @@ namespace PaymentHub.Network.Services
                 _logger.LogError("Failed to obtain PayPal access token.");
 
                 throw new PayPalAuthenticationException(
-                    ErrorCodes.PayPalTokenMissing,
+                    PayPalErrorCodes.PayPalAccessTokenFailed,
                     "PayPal token response was invalid or missing access token.");
             }
             
