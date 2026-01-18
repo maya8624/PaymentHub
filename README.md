@@ -8,7 +8,8 @@ Currently, it integrates with PayPal Sandbox for testing purposes.
 - Refund transactions
 - Frontend: Planned / Not Yet Implemented
 - Webhook support for real-time updates: Planned / Not Yet Implemented
-- Authentication Planned / Not Yet Implemented
+- Authentication: Planned / Not Yet Implemented
+- Azure deployment: Planned / Not Yet Implemented
 
 2. Technologies
 - C# .NET 8 / ASP.NET Core Web API
