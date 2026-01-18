@@ -1,4 +1,4 @@
-﻿namespace PaymentHub.Configuration
+﻿namespace PaymentHub.Network
 {
     public class PayPalSettings
     {

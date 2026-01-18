@@ -4,7 +4,6 @@ using PaymentHub.Application.Dtos;
 using PaymentHub.Application.Enums;
 using PaymentHub.Application.Exceptions;
 using PaymentHub.Application.Interfaces;
-using PaymentHub.Configuration;
 using PaymentHub.Domain.Enums;
 using PaymentHub.Infrastructure.Responses;
 using PaymentHub.Network;

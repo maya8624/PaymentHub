@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using PaymentHub.Application.Exceptions;
-using PaymentHub.Application;
 using PayPalIntegration.Application.Extensions;
 using PayPalIntegration.Infrastructure.Persistence;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text.Json;
+using PaymentHub.Network;
 
 var builder = WebApplication.CreateBuilder(args);
 

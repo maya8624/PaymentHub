@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using PaymentHub.Configuration;
 using PaymentHub.Network.Enums;
 using PaymentHub.Network.Exceptions;
 using PaymentHub.Network.Extensions;
