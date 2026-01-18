@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace PaymentHub.Application.Enums
 {
-    public enum ApplicationErrorCodes
+    public enum PaymentErrorCodes
     {
         NotFound = 2001,
         PaymentSaveFailed = 2002,
+        PaymentNotCaptured = 2003,
     }
 }

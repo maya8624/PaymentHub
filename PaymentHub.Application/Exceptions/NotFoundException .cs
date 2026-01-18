@@ -10,17 +10,17 @@ namespace PaymentHub.Application.Exceptions
 {
     public class NotFoundException : Exception
     {
-        public ApplicationErrorCodes ErrorCode { get; }
+        public PaymentErrorCodes ErrorCode { get; }
 
         public NotFoundException () { }
 
-        public NotFoundException(ApplicationErrorCodes errorCode, string message)
+        public NotFoundException(PaymentErrorCodes errorCode, string message)
             : base(message)
         {
             ErrorCode = errorCode;
         }
 
-        public NotFoundException(ApplicationErrorCodes errorCode, string message, Exception inner)
+        public NotFoundException(PaymentErrorCodes errorCode, string message, Exception inner)
             : base(message, inner)
         {
             ErrorCode = errorCode;

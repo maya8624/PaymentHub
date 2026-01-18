@@ -11,5 +11,6 @@ namespace PaymentHub.Application.Interfaces
     {
         Task<string> CreateOrder(int orderId);
         Task<PayPalCaptureResponse> CaptureOrder(int orderId);
+        Task<PayPalRefundResponse> RefundCapture(int paymentId, decimal amount, CancellationToken ct);
     }
 }

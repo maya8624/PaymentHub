@@ -10,29 +10,24 @@ namespace PaymentHub.Network
 {
     public static class HttpRequestFactory
     {
-        public static HttpRequestMessage CreateJson(
-            HttpMethod method,
-            string url,
-            object? body = null,
-            string? bearerToken = null,
-            IDictionary<string, string>? headers = null)
+        public static HttpRequestMessage CreateJson(RequestBuilderOptions options)
         {
-            var request = new HttpRequestMessage(method, url);
+            var request = new HttpRequestMessage(options.Method, options.Url);
 
-            if (string.IsNullOrWhiteSpace(bearerToken) == false)
+            if (string.IsNullOrWhiteSpace(options.BearerToken) == false)
             {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", options.BearerToken);
             }
 
-            if (headers != null)
+            if (options.Headers != null)
             {
-                foreach (var header in headers)
+                foreach (var header in options.Headers)
                     request.Headers.TryAddWithoutValidation(header.Key, header.Value);
             }
 
-            if (body != null)
+            if (options.Body != null)
             {
-                request.Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
+                request.Content = new StringContent(JsonSerializer.Serialize(options.Body), Encoding.UTF8, "application/json");
             }
 
             return request;

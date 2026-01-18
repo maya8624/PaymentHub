@@ -30,6 +30,14 @@ namespace PaymentHub.Api.Controllers
             var result = await _paypalService.CaptureOrder(orderId);
             return Ok(result);
         }
+        
+        
+        [HttpPost("refund")]
+        public async Task<IActionResult> Refund(RefundRequest request, CancellationToken ct)
+        {
+            var refund = await _paypalService.RefundCapture(request.PaymentId, request.Amount, ct);
+            return Ok(refund);
+        }
 
         [HttpPost("webhook")]
         public async Task<IActionResult> Webhook(int orderId)

@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace PaymentHub.Application.Exceptions
 {
-    public class PaymentSaveException : Exception
+    public class PaymentException : Exception
     {
         public ApplicationErrorCodes ErrorCode { get; }
 
-        public PaymentSaveException(ApplicationErrorCodes errorCode, string message)
+        public PaymentException(ApplicationErrorCodes errorCode, string message)
             : base(message)
         {
             ErrorCode = errorCode;
         }
 
-        public PaymentSaveException(ApplicationErrorCodes errorCode, string message, Exception innerException)
+        public PaymentException(ApplicationErrorCodes errorCode, string message, Exception innerException)
             : base(message, innerException)
         {
             ErrorCode = errorCode;

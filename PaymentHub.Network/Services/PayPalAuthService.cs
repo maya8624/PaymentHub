@@ -25,6 +25,7 @@ namespace PaymentHub.Network.Services
             _settings = settings.Value;
         }
 
+        //TODO: cache a token and reuse it until expires?
         public async Task<string> GetAccessToken()
         {
 
@@ -68,7 +69,7 @@ namespace PaymentHub.Network.Services
             {
                 _logger.LogError("Failed to obtain PayPal access token.");
 
-                throw new PayPalAuthenticationException(
+                throw new PayPalException(
                     PayPalErrorCodes.PayPalAccessTokenFailed,
                     "PayPal token response was invalid or missing access token.");
             }

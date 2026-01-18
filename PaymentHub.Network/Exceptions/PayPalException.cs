@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace PaymentHub.Network.Exceptions
 {
-    public class PayPalAuthenticationException : Exception
+    public class PayPalException : Exception
     {
         public PayPalErrorCodes ErrorCode { get; }
 
-        public PayPalAuthenticationException() { }
+        public PayPalException() { }
 
-        public PayPalAuthenticationException(PayPalErrorCodes errorCode, string message)
+        public PayPalException(PayPalErrorCodes errorCode, string message)
             : base(message)
         {
             ErrorCode = errorCode;
         }
 
-        public PayPalAuthenticationException(PayPalErrorCodes errorCode, string message, Exception innerException) 
+        public PayPalException(PayPalErrorCodes errorCode, string message, Exception innerException) 
             : base(message, innerException)
         {
             ErrorCode = errorCode;
