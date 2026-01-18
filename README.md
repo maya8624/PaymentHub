@@ -16,4 +16,4 @@ Currently, it integrates with PayPal Sandbox for testing purposes.
 - FluentValidation
 - Swagger
 
-⚠️ Note: This project is still a work in progress. Features are being expanded, and improvements are ongoing to support more payment providers and robust error handling.
+⚠️ Note: This project is still a work in progress. Features are being expanded, and improvements are ongoing to support more payment providers and robust error handling and testing.
