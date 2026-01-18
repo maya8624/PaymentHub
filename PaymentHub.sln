@@ -13,9 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentHub.Infrastructure",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentHub.Tests", "PaymentHub.Tests\PaymentHub.Tests.csproj", "{A4C15816-FC97-4FFE-98B1-03E456BD5F4B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentHub.Configuration", "PaymentHub.Configuration\PaymentHub.Configuration.csproj", "{0050E29B-B813-4A15-B99C-7BA45CE694CE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentHub.Network", "PaymentHub.Network\PaymentHub.Network.csproj", "{A14B9F75-7BA2-4A3A-9FD2-794B8A854D46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentHub.Network", "PaymentHub.Network\PaymentHub.Network.csproj", "{A14B9F75-7BA2-4A3A-9FD2-794B8A854D46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +41,6 @@ Global
 		{A4C15816-FC97-4FFE-98B1-03E456BD5F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4C15816-FC97-4FFE-98B1-03E456BD5F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4C15816-FC97-4FFE-98B1-03E456BD5F4B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0050E29B-B813-4A15-B99C-7BA45CE694CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0050E29B-B813-4A15-B99C-7BA45CE694CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0050E29B-B813-4A15-B99C-7BA45CE694CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0050E29B-B813-4A15-B99C-7BA45CE694CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A14B9F75-7BA2-4A3A-9FD2-794B8A854D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A14B9F75-7BA2-4A3A-9FD2-794B8A854D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A14B9F75-7BA2-4A3A-9FD2-794B8A854D46}.Release|Any CPU.ActiveCfg = Release|Any CPU

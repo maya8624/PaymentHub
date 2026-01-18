@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using PaymentHub.Application.Exceptions;
-using PaymentHub.Configuration;
+using PaymentHub.Application;
 using PayPalIntegration.Application.Extensions;
 using PayPalIntegration.Infrastructure.Persistence;
 using Swashbuckle.AspNetCore.Filters;
