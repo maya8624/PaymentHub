@@ -16,15 +16,8 @@ using PaymentHub.Network.Services;
 using PayPalIntegration.Domain.Entities;
 using PayPalIntegration.Domain.Enums;
 using PayPalIntegration.Infrastructure.Interfaces;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text.Json;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 using PaymentHub.Infrastructure.Interfaces;
-using PaymentHub.Infrastructure.Repositories;
-using System.Threading;
 using PaymentHub.Application.Extensions;
 
 namespace PaymentHub.Application.Services
@@ -32,7 +25,7 @@ namespace PaymentHub.Application.Services
     public class PayPalService : IPayPalService
     {
         private readonly IPayPalAuthService _authService;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHttpRequestSender _httpRequestSender;
         private readonly ILogger<PayPalAuthService> _logger;
         private readonly IOrderRepository _orderRepository;
         private readonly IPaymentRepository _paymentRepository;
@@ -41,20 +34,20 @@ namespace PaymentHub.Application.Services
 
         public PayPalService(
             IPayPalAuthService authService,
-            IHttpClientFactory httpClientFactory,
             ILogger<PayPalAuthService> logger,
             IOrderRepository orderRepository,
             IPaymentRepository paymentRepository,
             IOptions<PayPalSettings> settings,
-            IUnitOfWork uow)
+            IUnitOfWork uow,
+            IHttpRequestSender httpRequestSender)
         {
             _authService = authService;
-            _httpClientFactory = httpClientFactory;
             _logger = logger;
             _orderRepository = orderRepository;
             _paymentRepository = paymentRepository;
             _settings = settings.Value;
             _uow = uow;
+            _httpRequestSender = httpRequestSender;
         }
 
         public async Task<string> CreateOrder(int orderId)
@@ -87,24 +80,27 @@ namespace PaymentHub.Application.Services
             if (payment.Status == PaymentStatus.Completed && string.IsNullOrEmpty(payment.RawResponse) == false)
                 return payment.RawResponse.SafeDeserialize<PayPalCaptureResponse>();
 
-            var idempotencyKey = Guid.NewGuid().ToString();
+            var accessToken = await _authService.GetAccessToken();
 
-            var response = await CaptureWithPayPal(payment.ProviderOrderId, idempotencyKey);//, ct);
+            var request = BuildCaptureRequest(payment.ProviderOrderId, accessToken);
 
-            // 4. Persist result to THIS payment only
+            var response = await _httpRequestSender.ExecuteRequest<PayPalCaptureResponse>(request);//, ct);
+
             await ApplyCaptureResult(payment, response);
 
             return response;
         }
 
+        //TODO: split into small methods
         private async Task ApplyCaptureResult(Payment payment, PayPalCaptureResponse response)
         {
             var capture = response
-                .PurchaseUnits?.FirstOrDefault()
-                .PaymentDetails?.Captures?.FirstOrDefault();
+                ?.PurchaseUnits.FirstOrDefault()
+                ?.PaymentDetails
+                ?.Captures.FirstOrDefault();
 
             if (capture == null)
-                throw new Exception("capture is not found");
+                throw new NotFoundException(ApplicationErrorCodes.NotFound, "capture is not found");
 
             payment.Status = capture.Status switch
             {
@@ -122,67 +118,58 @@ namespace PaymentHub.Application.Services
             await _uow.SaveChanges();
         }
 
-
-        private async Task<PayPalCaptureResponse> CaptureWithPayPal(string paypalOrderId, string idempotencyKey)// CancellationToken ct)
+        private async Task<PayPalCaptureResponse> CaptureWithPayPal(string paypalOrderId)// CancellationToken ct)
         {
             var accessToken = await _authService.GetAccessToken();
 
-            var request = BuildCaptureRequest(paypalOrderId, accessToken, idempotencyKey);
+            var request = BuildCaptureRequest(paypalOrderId, accessToken);
+            
+            var response = await _httpRequestSender.ExecuteRequest<PayPalCaptureResponse>(request);//, ct);
 
-            var client = _httpClientFactory.CreateClient();
 
-            //var response = await SendWithRetry(client, request, ct);
-            var response = await client.SendAsync(request);//, ct);
-
-            if (response.IsSuccessStatusCode == false)
-            {
-                var failureReason = HttpStatusFailureMap.Resolve(response.StatusCode);
-
-                _logger.LogWarning(
-                    "HTTP request during CaptureWithPayPal failed with {StatusCode} mapped to {FailureReason}",
-                    response.StatusCode,
-                    failureReason
-                );
-            }
-
-            var json = await response.Content.ReadAsStringAsync();
-            var result = json.SafeDeserialize<PayPalCaptureResponse>();
-            return result;
+            //var json = await response.Content.ReadAsStringAsync();
+            //var result = json.SafeDeserialize<PayPalCaptureResponse>();
+            return response;
         }
 
-        private static async Task<HttpResponseMessage> SendWithRetry(
-            HttpClient client,
-            HttpRequestMessage request,
-            CancellationToken ct)
-        {
-            const int maxRetries = 3;
+        //private static async Task<HttpResponseMessage> SendWithRetry(
+        //    HttpClient client,
+        //    HttpRequestMessage request,
+        //    CancellationToken ct)
+        //{
+        //    const int maxRetries = 3;
 
-            for (var attempt = 1; attempt <= maxRetries; attempt++)
-            {
-                var response = await client.SendAsync(request, ct);
+        //    for (var attempt = 1; attempt <= maxRetries; attempt++)
+        //    {
+        //        var response = await client.SendAsync(request, ct);
 
-                if (response.IsSuccessStatusCode)
-                    return response;
+        //        if (response.IsSuccessStatusCode)
+        //            return response;
 
-                if (attempt == maxRetries)
-                    response.EnsureSuccessStatusCode();
+        //        if (attempt == maxRetries)
+        //            response.EnsureSuccessStatusCode();
 
-                await Task.Delay(TimeSpan.FromSeconds(attempt), ct);
-            }
+        //        await Task.Delay(TimeSpan.FromSeconds(attempt), ct);
+        //    }
 
-            throw new InvalidOperationException("Retry loop exited unexpectedly");
-        }
+        //    throw new InvalidOperationException("Retry loop exited unexpectedly");
+        //}
 
         #region private methods
-        private HttpRequestMessage BuildCaptureRequest(string paypalOrderId, string accessToken, string idempotencyKey)
+        private HttpRequestMessage BuildCaptureRequest(string paypalOrderId, string accessToken)
         {
             var captureUrl = string.Format(_settings.SandboxCaptureOrderUrl, paypalOrderId);
             var url = _settings.SandboxBaseUrl.CombineUrl(captureUrl);
-            var request = new HttpRequestMessage(HttpMethod.Post, url);
+            var idempotencyKey = Guid.NewGuid().ToString();
 
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            request.Headers.Add("PayPal-Request-Id", idempotencyKey);
-            request.Content = new StringContent("{}", Encoding.UTF8, "application/json");
+            var request = HttpRequestFactory.CreateJson(
+                HttpMethod.Post,
+                url: url,
+                bearerToken: accessToken,
+                headers: new Dictionary<string, string>
+                {
+                    ["PayPal-Request-Id"] = idempotencyKey
+                });
 
             return request;
         }
@@ -190,35 +177,22 @@ namespace PaymentHub.Application.Services
         private async Task<string> CreatePayPalOrder(OrderForPaymentResponse order, string accessToken, string idempotencyKey)
         {
             try
-            { 
-                var requestBody = BuildPayPalOrderRequest(order);
+            {
+                var body = BuildPayPalOrderRequest(order);
                 var url = _settings.SandboxBaseUrl.CombineUrl(_settings.SandboxCreateOrderUrl);
+                var request = HttpRequestFactory.CreateJson(
+                  HttpMethod.Post,
+                  url,
+                  body,
+                  accessToken,
+                  headers: new Dictionary<string, string>
+                  {
+                      ["PayPal-Request-Id"] = idempotencyKey
+                  });
 
-                var request = CreateHttpRequestMessage(
-                    HttpMethod.Post,
-                    url,
-                    requestBody,
-                    accessToken,
-                    idempotencyKey
-                );
+                var result = await _httpRequestSender.ExecuteRequest<PayPalOrderResponse>(request);
 
-                var client = _httpClientFactory.CreateClient();
-                var response = await client.SendAsync(request);
-
-                if (response.IsSuccessStatusCode == false)
-                {
-                    var failureReason = HttpStatusFailureMap.Resolve(response.StatusCode);
-
-                    _logger.LogWarning(
-                        "HTTP request failed with {StatusCode} mapped to {FailureReason}",
-                        response.StatusCode,
-                        failureReason
-                    );
-                }
-
-                var result = await response.Content.ReadFromJsonAsync<PayPalOrderResponse>();
-
-                if (result == null || string.IsNullOrEmpty(result.Id))
+                if (result == null)
                 {
                     _logger.LogError("Failed to create PayPal order.");
                     throw new PayPalAuthenticationException(PayPalErrorCodes.PayPalCreateOrderFailed, "Failed to create PayPal order.");
@@ -232,29 +206,6 @@ namespace PaymentHub.Application.Services
                 throw; 
                 //TODO:create a custom exception
                 // new PayPalOrderCreationException(payment.Id, "Could not create PayPal order. Please try again.");
-            }
-        }
-
-        private HttpRequestMessage CreateHttpRequestMessage(
-            HttpMethod method,
-            string url,
-            object? body = null,
-            string? bearerToken = null,
-            string? idempotencyKey = null)
-        {
-            {
-                var request = new HttpRequestMessage(method, url);
-
-                if (body != null)
-                    request.Content = JsonContent.Create(body);
-
-                if (string.IsNullOrEmpty(bearerToken) == false)
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
-
-                if (string.IsNullOrEmpty(idempotencyKey) == false)
-                    request.Headers.Add("PayPal-Request-Id", idempotencyKey); // PayPal idempotency header
-
-                return request;
             }
         }
 

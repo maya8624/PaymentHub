@@ -4,16 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PayPalIntegration.Domain.Enums
+namespace PaymentHub.Domain.Enums
 {
-    public enum PaymentStatus
+    public enum RefundStatus
     {
         Pending,
         Completed,
-        Captured,
-        Failed,
-        Refunded,
-        PartiallyRefunded,
-        Rejected
+        Failed
     }
 }

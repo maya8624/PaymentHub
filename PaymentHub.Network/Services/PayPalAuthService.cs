@@ -27,7 +27,12 @@ namespace PaymentHub.Network.Services
 
         public async Task<string> GetAccessToken()
         {
+
             var tokenUrl = _settings.SandboxBaseUrl.CombineUrl(_settings.SandboxTokenUrl);
+
+            //HttpRequestFactory.CreateJson(HttpMethod.Post, tokenUrl);
+
+
             var request = new HttpRequestMessage(HttpMethod.Post, tokenUrl);
 
             var byteArray = Encoding.UTF8.GetBytes($"{_settings.ClientId}:{_settings.Secret}");
@@ -54,7 +59,9 @@ namespace PaymentHub.Network.Services
             }
 
             var raw = await response.Content.ReadAsStringAsync();
+            
             var tokenResponse = JsonSerializer.Deserialize<PayPalTokenResponse>(raw);
+
             var token = tokenResponse?.AccessToken;
 
             if (token == null || string.IsNullOrWhiteSpace(token))

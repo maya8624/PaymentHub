@@ -13,6 +13,7 @@ namespace PayPalIntegration.Domain.Entities
         public string? ProviderCaptureId { get; set; }
         public decimal Amount { get; set; }
         public decimal CapturedAmount { get; set; }
+        public decimal RefundAmount { get; set; }
         public string BackendIdempotencyKey { get; set; }
         public Currency Currency { get; set; } = Currency.AUD;
         public DateTimeOffset? CapturedAt { get; set; }

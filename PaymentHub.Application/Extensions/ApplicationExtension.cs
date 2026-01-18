@@ -15,7 +15,8 @@ namespace PaymentHub.Application.Extensions
             {
                 var obj = JsonSerializer.Deserialize<T>(
                     json,
-                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                );
 
                 if (obj == null)
                     throw new JsonException("Deserialized object is null");
