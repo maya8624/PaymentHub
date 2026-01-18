@@ -33,14 +33,17 @@ namespace PayPalIntegration.Application.Extensions
             services.AddHttpClient();
             services.AddControllers();
 
+            services.AddScoped<IHttpRequestSender, HttpRequestSender>();
             services.AddScoped<IPayPalAuthService, PayPalAuthService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IPaymentService, PaymentServcie>();
             services.AddScoped<IPayPalService, PayPalService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IRefundRepository, RefundRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IValidator<CreateOrderRequest>, CreateOrderRequestValidator>();
+            services.AddScoped<IValidator<RefundRequest>, RefundRequestValidator>();
         }
     }
 }

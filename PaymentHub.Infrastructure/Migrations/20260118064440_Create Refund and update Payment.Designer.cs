@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PayPalIntegration.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using PayPalIntegration.Infrastructure.Persistence;
 namespace PaymentHub.Infrastructure.Migrations
 {
     [DbContext(typeof(PayHubContext))]
-    partial class PayHubContextModelSnapshot : ModelSnapshot
+    [Migration("20260118064440_Create Refund and update Payment")]
+    partial class CreateRefundandupdatePayment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

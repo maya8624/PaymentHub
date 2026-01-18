@@ -41,18 +41,18 @@ namespace PaymentHub.Application.Services
             IOrderRepository orderRepository,
             IPaymentRepository paymentRepository,
             IOptions<PayPalSettings> settings,
-            IUnitOfWork uow,
             IHttpRequestSender httpRequestSender,
-            IRefundRepository refundRepository)
+            IRefundRepository refundRepository,
+            IUnitOfWork uow)
         {
             _authService = authService;
             _logger = logger;
             _orderRepository = orderRepository;
             _paymentRepository = paymentRepository;
             _settings = settings.Value;
-            _uow = uow;
             _httpRequestSender = httpRequestSender;
             _refundRepository = refundRepository;
+            _uow = uow;
         }
 
         public async Task<string> CreateOrder(int orderId)
@@ -89,7 +89,7 @@ namespace PaymentHub.Application.Services
 
             var accessToken = await _authService.GetAccessToken();
             var request = BuildCaptureRequest(payment.ProviderOrderId, accessToken);
-            var response = await _httpRequestSender.ExecuteRequest<PayPalCaptureResponse>(request);//, ct);
+            var response = await _httpRequestSender.ExecuteRequest<PayPalCaptureResponse>(request);
 
             await UpdateCaptureResult(payment, response);
             return response;
@@ -117,6 +117,8 @@ namespace PaymentHub.Application.Services
             return response;
         }
 
+        #region private methods
+
         private static void ValidatePaymentForRefund(Payment payment, decimal amount)
         {
             if (payment == null)
@@ -139,7 +141,7 @@ namespace PaymentHub.Application.Services
                 amount = new
                 {
                     value = amount.ToString("F2"),
-                    currency_code = "AUD"
+                    currency_code = Currency.AUD.ToString(),
                 }
             });
 
@@ -235,7 +237,6 @@ namespace PaymentHub.Application.Services
         //    throw new InvalidOperationException("Retry loop exited unexpectedly");
         //}
 
-        #region private methods
 
         private HttpRequestMessage BuildCaptureRequest(string paypalOrderId, string accessToken)
         {
