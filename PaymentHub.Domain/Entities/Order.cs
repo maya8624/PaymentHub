@@ -16,22 +16,5 @@ namespace PayPalIntegration.Domain.Entities
 
         public ICollection<OrderItem> Items { get; set; } = [];
         public Payment Payment { get; set; }
-
-        //public IReadOnlyCollection<Payment> Payments => _payments;
-        //private readonly List<Payment> _payments = new();
-
-        //public void AddPayment(Payment payment)
-        //{
-        //    if (payment == null)
-        //        throw new ArgumentNullException(nameof(payment));
-
-        //    _payments.Add(payment);
-        //}
-
-        //public void MarkCompleted()
-        //{
-        //    Status = OrderStatus.Completed;
-        //    CompletedAt = DateTimeOffset.UtcNow;
-        //}
     }
 }

@@ -26,7 +26,7 @@ namespace PaymentHub.Network.Services
         public async Task<string> GetAccessToken()
         {            
             var options = BuildTokenRequest();
-            var request = HttpRequestFactory.CreateJson(options);
+            var request = HttpRequestFactory.CreateHttpRequestMessage(options);
 
             var response = await _httpRequestSender.ExecuteRequest<PayPalTokenResponse>(request);
             var token = response?.AccessToken;

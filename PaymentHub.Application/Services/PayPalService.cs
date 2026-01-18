@@ -119,7 +119,7 @@ namespace PaymentHub.Application.Services
             var accessToken = await _authService.GetAccessToken();
             var options = BuildRefundRequest(payment, amount, idempotencyKey, accessToken);
 
-            var request = HttpRequestFactory.CreateJson(options);
+            var request = HttpRequestFactory.CreateHttpRequestMessage(options);
             var response = await _httpRequestSender.ExecuteRequest<PayPalRefundResponse>(request);
 
             var refund = CreateRefundRecord(payment, amount, response, idempotencyKey);
@@ -289,7 +289,7 @@ namespace PaymentHub.Application.Services
                 Url = url
             };
 
-            var request = HttpRequestFactory.CreateHttpReqeustMessage(options);
+            var request = HttpRequestFactory.CreateHttpRequestMessage(options);
             return request;
         }
 
@@ -312,7 +312,7 @@ namespace PaymentHub.Application.Services
                 Url = url
             };
 
-            var request = HttpRequestFactory.CreateJson(options);
+            var request = HttpRequestFactory.CreateHttpRequestMessage(options);
             return request;
         }
 
