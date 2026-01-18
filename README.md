@@ -15,6 +15,7 @@ Currently, it integrates with PayPal Sandbox for testing purposes.
 - C# .NET 8 / ASP.NET Core Web API
 - Entity Framework Core
 - Azure SQL
+- xUnit
 - PayPal Sandbox API
 - FluentValidation
 - Swagger
