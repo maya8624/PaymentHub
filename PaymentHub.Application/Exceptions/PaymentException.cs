@@ -9,15 +9,15 @@ namespace PaymentHub.Application.Exceptions
 {
     public class PaymentException : Exception
     {
-        public ApplicationErrorCodes ErrorCode { get; }
+        public PaymentErrorCodes ErrorCode { get; }
 
-        public PaymentException(ApplicationErrorCodes errorCode, string message)
+        public PaymentException(PaymentErrorCodes errorCode, string message)
             : base(message)
         {
             ErrorCode = errorCode;
         }
 
-        public PaymentException(ApplicationErrorCodes errorCode, string message, Exception innerException)
+        public PaymentException(PaymentErrorCodes errorCode, string message, Exception innerException)
             : base(message, innerException)
         {
             ErrorCode = errorCode;

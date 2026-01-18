@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PaymentHub.Configuration;
@@ -14,58 +12,27 @@ namespace PaymentHub.Network.Services
 {
     public class PayPalAuthService : IPayPalAuthService
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHttpRequestSender _httpRequestSender;
         private readonly ILogger<PayPalAuthService> _logger;
         private readonly PayPalSettings _settings;
 
-        public PayPalAuthService(IHttpClientFactory httpClientFactory, ILogger<PayPalAuthService> logger, IOptions<PayPalSettings> settings)
+        public PayPalAuthService(IHttpRequestSender httpRequestSender, ILogger<PayPalAuthService> logger, IOptions<PayPalSettings> settings)
         {
-            _httpClientFactory = httpClientFactory;
+            _httpRequestSender = httpRequestSender;
             _logger = logger;
             _settings = settings.Value;
         }
 
         //TODO: cache a token and reuse it until expires?
         public async Task<string> GetAccessToken()
-        {
+        {            
+            var options = BuildTokenRequest();
+            var request = HttpRequestFactory.CreateJson(options);
 
-            var tokenUrl = _settings.SandboxBaseUrl.CombineUrl(_settings.SandboxTokenUrl);
+            var response = await _httpRequestSender.ExecuteRequest<PayPalTokenResponse>(request);
+            var token = response?.AccessToken;
 
-            //HttpRequestFactory.CreateJson(HttpMethod.Post, tokenUrl);
-
-
-            var request = new HttpRequestMessage(HttpMethod.Post, tokenUrl);
-
-            var byteArray = Encoding.UTF8.GetBytes($"{_settings.ClientId}:{_settings.Secret}");
-            var auth = Convert.ToBase64String(byteArray);
-
-            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", auth);
-            request.Content = new FormUrlEncodedContent(new Dictionary<string, string>
-            {
-                { "grant_type", "client_credentials" }
-            });
-
-
-            using var http = _httpClientFactory.CreateClient();
-            var response = await http.SendAsync(request);
-
-            if (response.IsSuccessStatusCode == false)
-            { 
-                var failureReason = HttpStatusFailureMap.Resolve(response.StatusCode);
-
-                _logger.LogWarning(
-                    "HTTP request failed with {StatusCode} mapped to {FailureReason}",
-                    response.StatusCode,
-                    failureReason);
-            }
-
-            var raw = await response.Content.ReadAsStringAsync();
-            
-            var tokenResponse = JsonSerializer.Deserialize<PayPalTokenResponse>(raw);
-
-            var token = tokenResponse?.AccessToken;
-
-            if (token == null || string.IsNullOrWhiteSpace(token))
+            if (string.IsNullOrWhiteSpace(token))
             {
                 _logger.LogError("Failed to obtain PayPal access token.");
 
@@ -75,6 +42,30 @@ namespace PaymentHub.Network.Services
             }
             
             return token;
+        }
+
+        private RequestBuilderOptions BuildTokenRequest()
+        {
+            var url = _settings.SandboxBaseUrl.CombineUrl(_settings.SandboxTokenUrl);
+            var idempotencyKey = Guid.NewGuid().ToString();
+
+            var byteArray = Encoding.UTF8.GetBytes($"{_settings.ClientId}:{_settings.Secret}");
+            var auth = Convert.ToBase64String(byteArray);
+            var content = new FormUrlEncodedContent(new Dictionary<string, string>
+            {
+                { "grant_type", "client_credentials" }
+            });
+
+            var options = new RequestBuilderOptions
+            {
+                AuthScheme = AuthScheme.Basic,
+                AuthToken = auth,
+                Method = HttpMethod.Post,
+                Content = content,
+                Url = url,
+            };
+
+            return options;
         }
     }
 }

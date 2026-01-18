@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PaymentHub.Application.Dtos;
 using PayPalIntegration.Application.Interfaces;
-using PayPalIntegration.Domain.Entities;
-using PayPalIntegration.Domain.Enums;
 
 namespace PayPalIntegration.Controllers
 {
@@ -16,25 +14,7 @@ namespace PayPalIntegration.Controllers
         {
             _orderService = orderService;
         }
-
-        /*
-            Frontend
-               ↓
-            Backend creates Order (Pending)
-               ↓
-            Backend creates PayPal Order
-               ↓
-            Store PayPalOrderId in DB
-               ↓
-            Frontend approves payment
-               ↓
-            Backend captures payment
-               ↓
-            Mark Order as Paid
-               ↓
-            Webhook confirms final state
-         */
-        
+                
         [HttpPost("create")]
         public async Task<ActionResult<OrderResponse>> Create([FromBody] CreateOrderRequest request)
         {

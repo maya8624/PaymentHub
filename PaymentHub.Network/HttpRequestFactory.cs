@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PaymentHub.Network.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -14,9 +15,18 @@ namespace PaymentHub.Network
         {
             var request = new HttpRequestMessage(options.Method, options.Url);
 
-            if (string.IsNullOrWhiteSpace(options.BearerToken) == false)
+            if (options.AuthScheme == AuthScheme.Basic)
             {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", options.BearerToken);
+                request.Headers.Authorization = new AuthenticationHeaderValue(AuthScheme.Basic.ToString(), options.AuthToken);
+            }
+            else if (options.AuthScheme == AuthScheme.Bearer && string.IsNullOrWhiteSpace(options.AuthToken) == false)
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue(AuthScheme.Bearer.ToString(), options.AuthToken);
+            }
+
+            if (options.Content != null)
+            {
+                request.Content = options.Content;
             }
 
             if (options.Headers != null)

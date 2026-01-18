@@ -21,8 +21,6 @@ using PaymentHub.Infrastructure.Interfaces;
 using PaymentHub.Application.Extensions;
 using System.Net.Http.Json;
 using PaymentHub.Domain.Entities;
-using Azure.Core;
-using System.Reflection.PortableExecutable;
 
 namespace PaymentHub.Application.Services
 {
@@ -153,10 +151,11 @@ namespace PaymentHub.Application.Services
             var options = new RequestBuilderOptions
             {
                 Method = HttpMethod.Post,
-                Url = url,
+                AuthScheme = AuthScheme.Bearer,
+                AuthToken = accessToken,
                 Body = body,
-                BearerToken = accessToken,
-                Headers = headers
+                Headers = headers,
+                Url = url
             };
 
             return options;
@@ -237,6 +236,7 @@ namespace PaymentHub.Application.Services
         //}
 
         #region private methods
+
         private HttpRequestMessage BuildCaptureRequest(string paypalOrderId, string accessToken)
         {
             var captureUrl = string.Format(_settings.SandboxCaptureOrderUrl, paypalOrderId);
@@ -251,9 +251,10 @@ namespace PaymentHub.Application.Services
             var options = new RequestBuilderOptions
             {
                 Method = HttpMethod.Post,
-                Url = url,
-                BearerToken = accessToken,
-                Headers = headers
+                AuthToken = accessToken,
+                AuthScheme = AuthScheme.Bearer,
+                Headers = headers,
+                Url = url
             };
 
             var request = HttpRequestFactory.CreateJson(options);
@@ -273,9 +274,10 @@ namespace PaymentHub.Application.Services
             var options = new RequestBuilderOptions
             {
                 Method = HttpMethod.Post,
-                Url = url,
-                BearerToken = accessToken,
-                Headers = headers
+                AuthScheme = AuthScheme.Bearer,
+                AuthToken = accessToken,
+                Headers = headers,
+                Url = url
             };
 
             var request = HttpRequestFactory.CreateJson(options);

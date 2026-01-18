@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PaymentHub.Application.Dtos;
 using PaymentHub.Application.Interfaces;
-using PaymentHub.Application.Services;
-using System.Text.Json;
 
 namespace PaymentHub.Api.Controllers
 {
