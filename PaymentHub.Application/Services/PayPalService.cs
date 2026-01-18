@@ -55,27 +55,43 @@ namespace PaymentHub.Application.Services
             _uow = uow;
         }
 
-        public async Task<string> CreateOrder(int orderId)
+        public async Task<PayPalOrderResultResponse> CreateOrder(int orderId)
         {
             var order = await _orderRepository.GetOrderForPayment(orderId);
             if (order == null)
                 throw new NotFoundException(PaymentErrorCodes.NotFound, $"Order: {orderId} not found.");
 
-            var idempotencyKey = Guid.NewGuid().ToString();
-            var payment = await SavePaymentRecord(order, idempotencyKey);
-
-            var accessToken = await _authService.GetAccessToken();
-            var request = BuildCreateRequest(order, idempotencyKey, accessToken);
-            var result = await _httpRequestSender.ExecuteRequest<PayPalOrderResponse>(request);
-
-            if (result == null || result.Id == null)
+            var payment = await GetPaymentByOrderId(orderId);
+            if (payment == null)
             {
-                _logger.LogError("Failed to get PayPalOrderId.");
-                throw new PayPalException(PayPalErrorCodes.PayPalCreateOrderFailed, "Failed to get PayPalOrderId.");
+                var idempotencyKey = Guid.NewGuid().ToString();
+                payment = await SavePaymentRecord(order, idempotencyKey);
             }
 
+            var accessToken = await _authService.GetAccessToken();
+            var request = BuildCreateRequest(order, payment.BackendIdempotencyKey, accessToken);
+            var result = await _httpRequestSender.ExecuteRequest<PayPalOrderResponse>(request);
+            
+            var approveUrl = ValidatePayPalCreateOrderResult(result);
             await UpdatePayment(payment, result.Id);
-            return result.Id;
+
+            var response = new PayPalOrderResultResponse
+            {
+                PayPalOrderId = result.Id,
+                ApproveUrl = approveUrl,
+            };
+
+            return response;
+        }        
+
+        private async Task<Payment> GetPaymentByOrderId(int orderId)
+        { 
+            var payment = await _paymentRepository.GetByOrderId(orderId);
+
+            if (payment != null && payment.Status != PaymentStatus.Pending)
+                throw new Exception($"Order status {orderId} is not Pending.");
+
+            return payment;
         }
 
         public async Task<PayPalCaptureResponse> CaptureOrder(int orderId)
@@ -88,7 +104,7 @@ namespace PaymentHub.Application.Services
                 return payment.RawResponse.SafeDeserialize<PayPalCaptureResponse>();
 
             var accessToken = await _authService.GetAccessToken();
-            var request = BuildCaptureRequest(payment.ProviderOrderId, accessToken);
+            var request = BuildCaptureRequest(payment.ProviderOrderId, payment.BackendIdempotencyKey, accessToken);
             var response = await _httpRequestSender.ExecuteRequest<PayPalCaptureResponse>(request);
 
             await UpdateCaptureResult(payment, response);
@@ -118,6 +134,24 @@ namespace PaymentHub.Application.Services
         }
 
         #region private methods
+        private string ValidatePayPalCreateOrderResult(PayPalOrderResponse result)
+        {
+            if (result == null || result.Id == null)
+            {
+                _logger.LogError("Failed to get PayPalOrderId.");
+                throw new PayPalException(PayPalErrorCodes.PayPalCreateOrderFailed, "Failed to get PayPalOrderId.");
+            }
+
+            var approveUrl = result.Links?.FirstOrDefault(x => x.Rel == "approved")?.Href;
+
+            if (approveUrl == null)
+            {
+                _logger.LogError("Failed to get an approve url.");
+                throw new PayPalException(PayPalErrorCodes.PayPalCreateOrderFailed, "Failed to get an approve url.");
+            }
+
+            return approveUrl;
+        }
 
         private static void ValidatePaymentForRefund(Payment payment, decimal amount)
         {
@@ -238,12 +272,10 @@ namespace PaymentHub.Application.Services
         //}
 
 
-        private HttpRequestMessage BuildCaptureRequest(string paypalOrderId, string accessToken)
+        private HttpRequestMessage BuildCaptureRequest(string paypalOrderId, string idempotencyKey, string accessToken)
         {
             var captureUrl = string.Format(_settings.SandboxCaptureOrderUrl, paypalOrderId);
             var url = _settings.SandboxBaseUrl.CombineUrl(captureUrl);
-
-            var idempotencyKey = Guid.NewGuid().ToString();
             var headers = new Dictionary<string, string>
             {
                 ["PayPal-Request-Id"] = idempotencyKey
@@ -258,15 +290,14 @@ namespace PaymentHub.Application.Services
                 Url = url
             };
 
-            var request = HttpRequestFactory.CreateJson(options);
+            var request = HttpRequestFactory.CreateHttpReqeustMessage(options);
             return request;
         }
 
         private HttpRequestMessage BuildCreateRequest(OrderForPaymentResponse order, string idempotencyKey, string accessToken)
         {
-            var body = BuildPayPalOrderRequest(order);
             var url = _settings.SandboxBaseUrl.CombineUrl(_settings.SandboxCreateOrderUrl);
-
+            var body = BuildPayPalOrderRequest(order);
             var headers = new Dictionary<string, string>
             {
                 ["PayPal-Request-Id"] = idempotencyKey
@@ -276,6 +307,7 @@ namespace PaymentHub.Application.Services
             {
                 Method = HttpMethod.Post,
                 AuthScheme = AuthScheme.Bearer,
+                Body = body,
                 AuthToken = accessToken,
                 Headers = headers,
                 Url = url
@@ -292,26 +324,26 @@ namespace PaymentHub.Application.Services
                 intent = "CAPTURE",
                 purchase_units = new[]
                 {
-                        new
+                    new
+                    {
+                        reference_id = order.Id.ToString(),
+                        amount = new
                         {
-                            reference_id = order.Id.ToString(),
-                            amount = new
-                            {
-                                currency_code = order.Currency.ToString(),
-                                value = order.TotalAmount.ToString("F2")
-                            },
-                            items = order.Items.Select(i => new
-                            {
-                                name = i.ProductName,
-                                unit_amount = new
-                                {
-                                    currency_code = order.Currency.ToString(),
-                                    value = i.UnitPrice.ToString("F2")
-                                },
-                                quantity = i.Quantity.ToString()
-                            }).ToArray()
-                        }
+                            currency_code = order.Currency.ToString(),
+                            value = order.TotalAmount.ToString("F2")
+                        },
+                        //items = order.Items.Select(i => new
+                        //{
+                        //    name = i.ProductName,
+                        //    unit_amount = new
+                        //    {
+                        //        currency_code = order.Currency.ToString(),
+                        //        value = i.UnitPrice.ToString("F2")
+                        //    },
+                        //    quantity = i.Quantity.ToString()
+                        //}).ToArray()
                     }
+                }
             };
         }
 

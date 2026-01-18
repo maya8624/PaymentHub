@@ -14,7 +14,14 @@ namespace PayPalIntegration.Controllers
         {
             _orderService = orderService;
         }
-                
+
+        [HttpGet("{orderId:int}")]
+        public async Task<ActionResult<OrderResponse>> GetOrder(int orderId)
+        {
+            var order = await _orderService.GetOrderById(orderId);
+            return Ok(order);
+        }
+
         [HttpPost("create")]
         public async Task<ActionResult<OrderResponse>> Create([FromBody] CreateOrderRequest request)
         {

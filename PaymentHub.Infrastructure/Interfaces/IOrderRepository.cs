@@ -10,6 +10,7 @@ namespace PayPalIntegration.Infrastructure.Interfaces
 {
     public interface IOrderRepository : IRepositoryBase<Order>
     {
+        Task<Order?> GetOrderById(int orderId);
         Task<OrderForPaymentResponse> GetOrderForPayment(int orderId);
 
         Task<Order> GetOrderByFrontendIdempontentKey(string key, int userId);

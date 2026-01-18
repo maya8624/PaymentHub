@@ -27,6 +27,13 @@ namespace PayPalIntegration.Infrastructure.Repositories
                 .FirstOrDefaultAsync(x => x.FrontendIdempotencyKey == key && x.UserId == userId);
         }
 
+        public async Task<Order?> GetOrderById(int orderId)
+        {
+            return await _context.Orders
+                .Include(x => x.Items)
+                .FirstOrDefaultAsync(x => x.Id == orderId);
+        }
+
         public async Task<OrderForPaymentResponse?> GetOrderForPayment(int orderId)
         {
             return await _context.Orders

@@ -15,20 +15,19 @@ namespace PaymentHub.Api.Controllers
             _paypalService = paypalService;
         }
 
-        [HttpPost("create-order/{orderId:int}")]
-        public async Task<IActionResult> CreatePayPalOrder(int orderId)
+        [HttpPost("create-order")]
+        public async Task<ActionResult<PayPalOrderResultResponse>> CreatePayPalOrder([FromBody] OrderPaymentRequest request)
         {
-            var paypalOrderId = await _paypalService.CreateOrder(orderId);
-            return Ok(new { paypalOrderId });
-        }
-
-        [HttpPost("capture-order/{orderId:int}")]
-        public async Task<ActionResult<PayPalCaptureResponse>> CaptureOrder(int orderId)
-        {
-            var result = await _paypalService.CaptureOrder(orderId);
+            var result = await _paypalService.CreateOrder(request.OrderId);
             return Ok(result);
         }
-        
+
+        [HttpPost("capture-order")]
+        public async Task<ActionResult<PayPalCaptureResponse>> CaptureOrder([FromBody] OrderPaymentRequest request)
+        {
+            var result = await _paypalService.CaptureOrder(request.OrderId);
+            return Ok(result);
+        }        
         
         [HttpPost("refund")]
         public async Task<IActionResult> Refund(RefundRequest request, CancellationToken ct)
@@ -40,25 +39,6 @@ namespace PaymentHub.Api.Controllers
         [HttpPost("webhook")]
         public async Task<IActionResult> Webhook(int orderId)
         {
-            //var headers = Request.Headers;
-
-            //// 2. Read the raw body as a string (Verification requires the exact raw body)
-            //using var reader = new StreamReader(Request.Body);
-            //var body = await reader.ReadToEndAsync();
-
-            //// 3. Verify the signature via your service
-            //var isValid = await _payPalService.VerifyWebhookSignature(headers, body);
-
-            //if (!isValid)
-            //{
-            //    _logger.LogWarning("Invalid PayPal Webhook signature received.");
-            //    return BadRequest();
-            //}
-
-            //// 4. Parse and process the event
-            //var ev = JsonSerializer.Deserialize<PayPalWebhookEvent>(body);
-            //await _payPalService.HandleWebhookEvent(ev);
-
             return Ok(); // Always return 200 quickly to acknowledge receipt
         }
     }

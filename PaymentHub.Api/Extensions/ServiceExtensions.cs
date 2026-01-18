@@ -23,7 +23,7 @@ namespace PayPalIntegration.Application.Extensions
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000")
+                        builder.WithOrigins(["http://localhost:3000", "http://127.0.0.1:5500"])
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
@@ -44,6 +44,7 @@ namespace PayPalIntegration.Application.Extensions
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IValidator<CreateOrderRequest>, CreateOrderRequestValidator>();
             services.AddScoped<IValidator<RefundRequest>, RefundRequestValidator>();
+            services.AddScoped<IValidator<OrderPaymentRequest>, OrderPaymentRequestValidator>();
         }
     }
 }

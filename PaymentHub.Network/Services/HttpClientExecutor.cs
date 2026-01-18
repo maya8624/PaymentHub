@@ -25,13 +25,15 @@ namespace PaymentHub.Network.Services
 
                 if (response.IsSuccessStatusCode == false)
                 {
-                    //var errorBody = await response.Content.ReadAsStringAsync(cancellationToken);
+                    var errorBody = await response.Content.ReadAsStringAsync();
                     var failureReason = HttpStatusFailureMap.Resolve(response.StatusCode);
 
                     _logger.LogWarning(
                         "HTTP request failed with {StatusCode} mapped to {FailureReason}",
                         response.StatusCode,
-                        failureReason);
+                        errorBody);
+
+                    throw new NetworkException($"HTTP request failed with {response.StatusCode} mapped to {failureReason}");
                 }
 
                 var content = await response.Content.ReadFromJsonAsync<T>();

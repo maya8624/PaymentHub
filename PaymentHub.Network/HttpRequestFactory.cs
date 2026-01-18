@@ -42,5 +42,33 @@ namespace PaymentHub.Network
 
             return request;
         }
+
+        public static HttpRequestMessage CreateHttpReqeustMessage(RequestBuilderOptions options)
+        {
+            var request = new HttpRequestMessage(options.Method, options.Url);
+
+            if (options.AuthScheme == AuthScheme.Bearer && string.IsNullOrWhiteSpace(options.AuthToken) == false)
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue(AuthScheme.Bearer.ToString(), options.AuthToken);
+            }
+
+            //if (options.Content != null)
+            //{
+            //    request.Content = options.Content;
+            //}
+
+            if (options.Headers != null)
+            {
+                foreach (var header in options.Headers)
+                    request.Headers.TryAddWithoutValidation(header.Key, header.Value);
+            }
+
+            //if (options.Body != null)
+            //{
+            //    request.Content = new StringContent(JsonSerializer.Serialize(options.Body), Encoding.UTF8, "application/json");
+            //}
+
+            return request;
+        }
     }
 }

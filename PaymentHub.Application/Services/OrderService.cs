@@ -1,4 +1,6 @@
 ﻿using PaymentHub.Application.Dtos;
+using PaymentHub.Application.Enums;
+using PaymentHub.Application.Exceptions;
 using PaymentHub.Domain.Entities;
 using PayPalIntegration.Application.Interfaces;
 using PayPalIntegration.Domain.Entities;
@@ -15,6 +17,32 @@ namespace PayPalIntegration.Application.Services
         {
             _orderRepository = orderRepository;
             _uow = uow;
+        }
+
+        public async Task<OrderResponse> GetOrderById(int orderId)
+        {
+            var order = await _orderRepository.GetOrderById(orderId);
+
+            if (order == null)
+                throw new NotFoundException(PaymentErrorCodes.NotFound, $"Order is not found.");
+
+            var response = new OrderResponse
+            {
+                OrderId = order.Id,
+                CreatedAt = order.CreatedAt,
+                Status = order.Status,
+                TotalAmount = order.TotalAmount,
+                Items = order.Items.Select(x => new OrderItemResponse
+                {
+                    ProductId = x.ProductId, 
+                    ProductName = x.ProductName,
+                    Quantity = x.Quantity,
+                    UnitPrice = x.UnitPrice,
+                    TotalPrice = x.TotalPrice,
+                }).ToList()
+            };
+
+            return response;
         }
 
         public async Task<OrderResponse> CreateOrder(int userId, string frontendIdempotencyKey, List<CreateOrderItemRequest> items)
