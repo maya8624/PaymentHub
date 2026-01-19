@@ -1,5 +1,4 @@
 ﻿using PaymentHub.Application.Dtos;
-using PaymentHub.Application.Enums;
 using PaymentHub.Application.Exceptions;
 using PaymentHub.Domain.Entities;
 using PayPalIntegration.Application.Interfaces;
@@ -24,7 +23,7 @@ namespace PayPalIntegration.Application.Services
             var order = await _orderRepository.GetOrderById(orderId);
 
             if (order == null)
-                throw new NotFoundException(PaymentErrorCodes.NotFound, $"Order is not found.");
+                throw new NotFoundException("Order is not found.");
 
             var response = new OrderResponse
             {

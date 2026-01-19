@@ -1,28 +1,14 @@
-﻿using PaymentHub.Network.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using PaymentHub.Network.Constants;
 
-namespace PaymentHub.Network.Exceptions
+namespace PaymentHub.Application.Exceptions
 {
-    public class PayPalException : Exception
+    public class PayPalException : NetworkException
     {
-        public PayPalErrorCodes ErrorCode { get; }
+        public override int StatusCode => NetworkStatusCodes.PayPalIssue;
+        public override string Name => "PAYPAL_ISSUE";
 
-        public PayPalException() { }
-
-        public PayPalException(PayPalErrorCodes errorCode, string message)
-            : base(message)
-        {
-            ErrorCode = errorCode;
-        }
-
-        public PayPalException(PayPalErrorCodes errorCode, string message, Exception innerException) 
-            : base(message, innerException)
-        {
-            ErrorCode = errorCode;
-        }
+        public PayPalException(string message) : base(message) { }
+        public PayPalException(string message, Exception inner) : base(message, inner) { }
     }
 }

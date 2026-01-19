@@ -1,29 +1,13 @@
-﻿using PaymentHub.Application.Enums;
-using PaymentHub.Network.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PaymentHub.Application.Constants;
 
 namespace PaymentHub.Application.Exceptions
 {
-    public class NotFoundException : Exception
+    public class NotFoundException : AppException
     {
-        public PaymentErrorCodes ErrorCode { get; }
+        public override int StatusCode => CustomStatusCodes.NotFound;
+        public override string Name => "NOT_FOUND";
 
-        public NotFoundException () { }
-
-        public NotFoundException(PaymentErrorCodes errorCode, string message)
-            : base(message)
-        {
-            ErrorCode = errorCode;
-        }
-
-        public NotFoundException(PaymentErrorCodes errorCode, string message, Exception inner)
-            : base(message, inner)
-        {
-            ErrorCode = errorCode;
-        }
+        public NotFoundException(string message) : base(message) { }
+        public NotFoundException(string message, Exception inner) : base(message, inner) { }
     }
 }

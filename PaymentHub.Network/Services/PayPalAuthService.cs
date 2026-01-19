@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using PaymentHub.Application.Exceptions;
 using PaymentHub.Network.Enums;
-using PaymentHub.Network.Exceptions;
 using PaymentHub.Network.Extensions;
 using PaymentHub.Network.Interfaces;
 using PaymentHub.Network.Responses;
@@ -35,9 +35,7 @@ namespace PaymentHub.Network.Services
             {
                 _logger.LogError("Failed to obtain PayPal access token.");
 
-                throw new PayPalException(
-                    PayPalErrorCodes.PayPalAccessTokenFailed,
-                    "PayPal token response was invalid or missing access token.");
+                throw new PayPalException("PayPal token response was invalid or missing access token.");
             }
             
             return token;

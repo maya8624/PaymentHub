@@ -9,11 +9,12 @@
   <ItemGroup>
     <Folder Include="Application\" />
     <Folder Include="Infrastructure\" />
-    <Folder Include="Api\" />
   </ItemGroup>
 
   <ItemGroup>
+	<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.9" />
 	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+	<PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="xunit" Version="2.9.3" />
 	<PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
 	  <PrivateAssets>all</PrivateAssets>
@@ -26,6 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PaymentHub.Api\PaymentHub.Api.csproj" />
+    <ProjectReference Include="..\PaymentHub.Application\PaymentHub.Application.csproj" />
     <ProjectReference Include="..\PaymentHub.Network\PaymentHub.Network.csproj" />
   </ItemGroup>
 

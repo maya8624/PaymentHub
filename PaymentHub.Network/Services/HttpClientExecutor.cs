@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using PaymentHub.Network.Exceptions;
 using PaymentHub.Network.Interfaces;
 using System.Net.Http.Json;
 
@@ -33,25 +32,25 @@ namespace PaymentHub.Network.Services
                         response.StatusCode,
                         errorBody);
 
-                    throw new NetworkException($"HTTP request failed with {response.StatusCode} mapped to {failureReason}");
+                    throw new HttpRequestException($"HTTP request failed with {response.StatusCode} mapped to {failureReason}");
                 }
 
                 var content = await response.Content.ReadFromJsonAsync<T>();
                 if (content == null)
                 {
                     _logger.LogError("Empty response body.");
-                     throw new NetworkException("Empty response body");
+                     throw new HttpRequestException("Empty response body");
                 }
 
                 return content;
             }
             catch (TaskCanceledException ex)
             {
-                throw new NetworkException("Request timed out", ex);
+                throw new TaskCanceledException("Request timed out", ex);
             }
             catch (HttpRequestException ex)
             {
-                throw new NetworkException("Network error occurred", ex);
+                throw new HttpRequestException("Network error occurred", ex);
             }
         }
 

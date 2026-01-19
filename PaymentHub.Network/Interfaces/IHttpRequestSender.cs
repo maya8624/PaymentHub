@@ -8,7 +8,7 @@ namespace PaymentHub.Network.Interfaces
 {
     public interface IHttpRequestSender
     {
-        Task<T> ExecuteRequest<T>(HttpRequestMessage request);//, CancellationToken ct);
+        Task<T> ExecuteRequest<T>(HttpRequestMessage request);
         Task ExecuteRequest(HttpRequestMessage request, CancellationToken ct);
     }
 }

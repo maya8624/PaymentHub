@@ -7,6 +7,7 @@ using PayPalIntegration.Infrastructure.Persistence;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text.Json;
 using PaymentHub.Network;
+using PaymentHub.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,39 +40,14 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-app.UseExceptionHandler(appBuilder =>
-{
-    appBuilder.Run(async context =>
-    {
-        context.Response.ContentType = "application/json";
-
-        var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
-
-        if (exception is NotFoundException notFoundEx)
-        {
-            context.Response.StatusCode = StatusCodes.Status404NotFound;
-            await context.Response.WriteAsync(
-                JsonSerializer.Serialize(new
-                {
-                    error = notFoundEx.Message,
-                    errorCode = notFoundEx.ErrorCode
-                }));
-        }
-        else
-        {
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            await context.Response.WriteAsync(
-                JsonSerializer.Serialize(new { error = "An unexpected error occurred" }));
-        }
-    });
-});
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseGlobalExceptionHandling();
 
 app.UseCors();
 

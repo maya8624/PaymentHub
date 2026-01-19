@@ -1,14 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PaymentHub.Application.Dtos;
-using PaymentHub.Application.Enums;
 using PaymentHub.Application.Exceptions;
 using PaymentHub.Application.Interfaces;
 using PaymentHub.Domain.Enums;
 using PaymentHub.Infrastructure.Responses;
 using PaymentHub.Network;
 using PaymentHub.Network.Enums;
-using PaymentHub.Network.Exceptions;
 using PaymentHub.Network.Extensions;
 using PaymentHub.Network.Interfaces;
 using PaymentHub.Network.Services;
@@ -58,7 +56,7 @@ namespace PaymentHub.Application.Services
         {
             var order = await _orderRepository.GetOrderForPayment(orderId);
             if (order == null)
-                throw new NotFoundException(PaymentErrorCodes.NotFound, $"Order: {orderId} not found.");
+                throw new NotFoundException($"Order: {orderId} not found.");
 
             var payment = await GetPaymentByOrderId(orderId);
             if (payment == null)
@@ -97,7 +95,7 @@ namespace PaymentHub.Application.Services
         {
             var payment = await _paymentRepository.GetByOrderId(orderId);
             if (payment == null)
-                throw new NotFoundException(PaymentErrorCodes.NotFound, $"Payment not found. orderId:{orderId}");
+                throw new NotFoundException($"Payment not found. orderId:{orderId}");
 
             if (payment.Status == PaymentStatus.Completed && string.IsNullOrEmpty(payment.RawResponse) == false)
                 return payment.RawResponse.SafeDeserialize<PayPalCaptureResponse>();
@@ -138,7 +136,7 @@ namespace PaymentHub.Application.Services
             if (result == null || result.Id == null)
             {
                 _logger.LogError("Failed to get PayPalOrderId.");
-                throw new PayPalException(PayPalErrorCodes.PayPalCreateOrderFailed, "Failed to get PayPalOrderId.");
+                throw new PayPalException("Failed to get PayPalOrderId.");
             }
 
             var approveUrl = result.Links?.FirstOrDefault(x => x.Rel == "approved")?.Href;
@@ -146,7 +144,7 @@ namespace PaymentHub.Application.Services
             if (approveUrl == null)
             {
                 _logger.LogError("Failed to get an approve url.");
-                throw new PayPalException(PayPalErrorCodes.PayPalCreateOrderFailed, "Failed to get an approve url.");
+                throw new PayPalException("Failed to get an approve url.");
             }
 
             return approveUrl;
@@ -155,13 +153,13 @@ namespace PaymentHub.Application.Services
         private static void ValidatePaymentForRefund(Payment payment, decimal amount)
         {
             if (payment == null)
-                throw new NotFoundException(PaymentErrorCodes.NotFound, "Payment not found.");
+                throw new NotFoundException("Payment not found.");
 
             if (amount <= 0 || amount > payment.RefundableAmount)
-                throw new InvalidOperationException("Invalid refund amount.");
+                throw new RefundException("Invalid refund amount.");
 
             if (string.IsNullOrEmpty(payment.ProviderCaptureId))
-                throw new PaymentException(PaymentErrorCodes.PaymentNotCaptured, "Payment has not been captured yet.");
+                throw new PaymentException("Payment has not been captured yet.");
         }
 
         private RequestBuilderOptions BuildRefundRequest(Payment payment, decimal amount, string idempotencyKey, string accessToken)
@@ -229,7 +227,7 @@ namespace PaymentHub.Application.Services
                 ?.Captures.FirstOrDefault();
 
             if (capture == null)
-                throw new NotFoundException(PaymentErrorCodes.NotFound, "capture is not found");
+                throw new NotFoundException("capture is not found");
 
             payment.Status = capture.Status switch
             {
@@ -370,7 +368,7 @@ namespace PaymentHub.Application.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to save Payment record for Order {OrderId}", order.Id);
-                throw new PaymentException(PaymentErrorCodes.PaymentSaveFailed, "Could not save payment record. Please try again.");
+                throw new PaymentException("Could not save payment record. Please try again.");
             }
         }
 
@@ -388,7 +386,7 @@ namespace PaymentHub.Application.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to update Payment record for Order {OrderId}", payment.OrderId);
-                throw new PaymentException(PaymentErrorCodes.PaymentSaveFailed, "Failed to process payment. Please try again.");
+                throw new PaymentException("Failed to process payment. Please try again.");
             }
         }
         #endregion

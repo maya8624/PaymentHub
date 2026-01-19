@@ -1,4 +1,4 @@
-﻿using PaymentHub.Application.Enums;
+﻿using PaymentHub.Application.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,20 +7,12 @@ using System.Threading.Tasks;
 
 namespace PaymentHub.Application.Exceptions
 {
-    public class PaymentException : Exception
+    public class PaymentException : AppException
     {
-        public PaymentErrorCodes ErrorCode { get; }
+        public override int StatusCode => CustomStatusCodes.PaymentIssue;
+        public override string Name => "PAYMENT_ISSue";
 
-        public PaymentException(PaymentErrorCodes errorCode, string message)
-            : base(message)
-        {
-            ErrorCode = errorCode;
-        }
-
-        public PaymentException(PaymentErrorCodes errorCode, string message, Exception innerException)
-            : base(message, innerException)
-        {
-            ErrorCode = errorCode;
-        }
+        public PaymentException(string message) : base(message) { }
+        public PaymentException(string message, Exception inner) : base(message, inner) { }
     }
 }
