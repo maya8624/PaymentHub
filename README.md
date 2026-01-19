@@ -5,6 +5,7 @@ Currently, it integrates with PayPal Sandbox for testing purposes.
 1. Features
 - Create and manage orders
 - Approve and capture payments
+- Idempotency support
 - Refund transactions
 - Frontend: Planned / Not Yet Implemented
 - Webhook support for real-time updates: Planned / Not Yet Implemented
