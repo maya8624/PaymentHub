@@ -22,7 +22,9 @@ Currently, the system integrates with PayPal Sandbox for testing and development
 - xUnit
 - PayPal Sandbox API
 - FluentValidation
-- Swagger
 - React for front-end
+- Swagger
+- <img width="1470" height="776" alt="image" src="https://github.com/user-attachments/assets/6389e65e-1785-4711-91d8-c85d95d019fc" />
+
   
 ⚠️ Note: This project is still a work in progress. Features are being expanded, and improvements are ongoing to support more payment providers and robust error handling and testing.
