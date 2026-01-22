@@ -15,7 +15,7 @@ namespace PaymentHub.Application.Dtos
 
         public decimal TotalAmount { get; set; }
         
-        public string FrontendIdempotencyKey { get; set; }
+        public string IdempotencyKey { get; set; }
 
         public List<OrderItemResponse> Items { get; set; } = [];
 

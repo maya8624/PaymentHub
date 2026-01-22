@@ -8,6 +8,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Text.Json;
 using PaymentHub.Network;
 using PaymentHub.Api.Extensions;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,9 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
+builder.Services.AddControllers()
+    .AddJsonOptions(x => x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -52,6 +56,9 @@ app.UseGlobalExceptionHandling();
 app.UseCors();
 
 app.UseHttpsRedirection();
+
+//TODO: Remove comment when actual jwt ready 
+//app.UseAuthentication();
 
 app.UseAuthorization();
 

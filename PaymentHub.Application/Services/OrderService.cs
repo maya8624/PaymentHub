@@ -83,7 +83,7 @@ namespace PayPalIntegration.Application.Services
                 OrderId = order.Id,
                 Status = order.Status,
                 TotalAmount = order.TotalAmount,
-                FrontendIdempotencyKey = order.FrontendIdempotencyKey,
+                IdempotencyKey = order.FrontendIdempotencyKey,
                 CreatedAt = order.CreatedAt,
                 Items = order.Items.Select(x => new OrderItemResponse
                 {
