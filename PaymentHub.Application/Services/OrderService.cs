@@ -1,6 +1,7 @@
 ﻿using PaymentHub.Application.Dtos;
 using PaymentHub.Application.Exceptions;
 using PaymentHub.Domain.Entities;
+using PaymentHub.Infrastructure.Responses;
 using PayPalIntegration.Application.Interfaces;
 using PayPalIntegration.Domain.Entities;
 using PayPalIntegration.Infrastructure.Interfaces;
@@ -42,6 +43,12 @@ namespace PayPalIntegration.Application.Services
             };
 
             return response;
+        }
+
+        public async Task<IEnumerable<OrderSummaryResponse>> GetOrdersForUser(int userId)
+        {
+            var orders = await _orderRepository.GetOrdersForUser(userId);
+            return orders;
         }
 
         public async Task<OrderResponse> CreateOrder(int userId, string frontendIdempotencyKey, List<CreateOrderItemRequest> items)

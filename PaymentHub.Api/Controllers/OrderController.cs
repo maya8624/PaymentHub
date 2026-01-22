@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PaymentHub.Application.Dtos;
+using PaymentHub.Infrastructure.Responses;
 using PayPalIntegration.Application.Interfaces;
+using System.Security.Claims;
 
 namespace PayPalIntegration.Controllers
 {
@@ -20,6 +22,19 @@ namespace PayPalIntegration.Controllers
         {
             var order = await _orderService.GetOrderById(orderId);
             return Ok(order);
+        }
+
+        [HttpGet("{orders}")]
+        public async Task<ActionResult<List<OrderSummaryResponse>>> GetOrders()
+        {
+            // get userId from JWT claims
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //if (userId == null) return Unauthorized();
+
+            var userId = 1;
+            var orders = await _orderService.GetOrdersForUser(userId);
+
+            return Ok(orders);
         }
 
         [HttpPost("create")]

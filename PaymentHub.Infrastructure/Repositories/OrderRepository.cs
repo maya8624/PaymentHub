@@ -34,6 +34,21 @@ namespace PayPalIntegration.Infrastructure.Repositories
                 .FirstOrDefaultAsync(x => x.Id == orderId);
         }
 
+        public async Task<IEnumerable<OrderSummaryResponse>> GetOrdersForUser(int userId)
+        {
+            return await _context.Orders
+                .AsNoTracking()
+                .Where(x => x.UserId == userId)
+                .Select(x => new OrderSummaryResponse
+                {
+                    OrderId = x.Id,
+                    Status = x.Status.ToString(),
+                    TotalAmount = x.TotalAmount,
+                    CreatedAt = x.CreatedAt
+                })
+                .ToListAsync();
+        }
+
         public async Task<OrderForPaymentResponse?> GetOrderForPayment(int orderId)
         {
             return await _context.Orders

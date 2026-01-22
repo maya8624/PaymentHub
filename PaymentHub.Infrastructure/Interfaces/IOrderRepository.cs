@@ -12,7 +12,7 @@ namespace PayPalIntegration.Infrastructure.Interfaces
     {
         Task<Order?> GetOrderById(int orderId);
         Task<OrderForPaymentResponse> GetOrderForPayment(int orderId);
-
+        Task<IEnumerable<OrderSummaryResponse>> GetOrdersForUser(int userId);
         Task<Order> GetOrderByFrontendIdempontentKey(string key, int userId);
     }
 }

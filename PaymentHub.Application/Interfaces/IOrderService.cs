@@ -1,4 +1,5 @@
 ﻿using PaymentHub.Application.Dtos;
+using PaymentHub.Infrastructure.Responses;
 
 namespace PayPalIntegration.Application.Interfaces
 {
@@ -6,5 +7,6 @@ namespace PayPalIntegration.Application.Interfaces
     {
         Task<OrderResponse> CreateOrder(int userId, string frontendIdempotencyKey, List<CreateOrderItemRequest> items);
         Task<OrderResponse> GetOrderById(int orderId);
+        Task<IEnumerable<OrderSummaryResponse>> GetOrdersForUser(int userId);
     }
 }
