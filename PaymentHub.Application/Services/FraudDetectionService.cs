@@ -1,0 +1,81 @@
+﻿using Azure.Core;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using PaymentHub.Application.Dtos;
+using PaymentHub.Application.Interfaces;
+using PaymentHub.Network;
+using PaymentHub.Network.Enums;
+using PaymentHub.Network.Interfaces;
+using PaymentHub.Network.Services;
+using PayPalIntegration.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Json;
+using System.Reflection.PortableExecutable;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PaymentHub.Application.Services
+{
+    public class FraudDetectionService : IFraudDetectionService
+    {
+        private readonly IHttpClientService _httpClientService;
+        private readonly ILogger<PayPalAuthService> _logger;
+        private readonly AiSidecarSettings _settings;
+        public FraudDetectionService(IHttpClientService httpClientService, IOptions<AiSidecarSettings> settings, ILogger<PayPalAuthService> logger)
+        {
+            _httpClientService = httpClientService;
+            _settings = settings.Value;
+            _logger = logger;
+        }
+
+        public async Task<FraudPredictionResponse> CheckTransaction(FraudPredictionRequest request)
+        {
+            try
+            {
+                var headers = new Dictionary<string, string>
+                {
+                    [ "Api-Key" ] = _settings.ApiKey,
+                };
+
+                var options = new RequestBuilderOptions
+                {
+                    Method = HttpMethod.Post,
+                    AuthScheme = AuthScheme.None,
+                    Headers = headers,
+                    Body = request,
+                    Url = _settings.Url
+                };
+
+                var message = HttpRequestFactory.CreateHttpRequestMessage(options);
+                var result = await _httpClientService.ExecuteRequest<FraudPredictionResponse>(message);
+
+                if (result.IsFraud && result.ConfidenceScore > 0.85)
+                    _logger.LogWarning("Fraudulent activity detected. Score: {Score}", result.ConfidenceScore);
+
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to reach AI Sidecar at {Url}", _settings.Url);
+
+                return new FraudPredictionResponse
+                {
+                    IsFraud = true,
+                    ConfidenceScore = 1.0,
+                    AgentDecision = "SYSTEM_UNAVAILABLE_FAIL_SAFE"
+                };
+
+                // Emergency Fallback for SaaS
+                //return new FraudPredictionResponse
+                //{
+                //    IsFraud = false, // Let it through
+                //    ConfidenceScore = 0.0,
+                //    AgentDecision = "BYPASS_SYSTEM_OFFLINE" // Mark for manual audit later
+                //};
+            }
+        }
+    }
+}

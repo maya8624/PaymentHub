@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PaymentHub.Network.Interfaces
 {
-    public interface IHttpRequestSender
+    public interface IHttpClientService
     {
         Task<T> ExecuteRequest<T>(HttpRequestMessage request);
         Task ExecuteRequest(HttpRequestMessage request, CancellationToken ct);

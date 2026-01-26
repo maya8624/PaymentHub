@@ -10,5 +10,6 @@ namespace PaymentHub.Network.Enums
     {
         Basic,
         Bearer,
+        None,
     }
 }

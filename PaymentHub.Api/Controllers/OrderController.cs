@@ -7,7 +7,7 @@ using System.Security.Claims;
 namespace PayPalIntegration.Controllers
 {
     [ApiController]
-    [Route("api/orders")]
+    [Route("api/order")]
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
@@ -24,13 +24,13 @@ namespace PayPalIntegration.Controllers
             return Ok(order);
         }
 
-        [HttpGet("{orders}")]
+        [HttpGet("orders")]
         public async Task<ActionResult<List<OrderSummaryResponse>>> GetOrders()
         {
-            // get userId from JWT claims
+            //TODO: get userId from JWT claims
             //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             //if (userId == null) return Unauthorized();
-
+            //userId = 1 for testing
             var userId = 1;
             var orders = await _orderService.GetOrdersForUser(userId);
 
@@ -46,6 +46,16 @@ namespace PayPalIntegration.Controllers
                 request.Items);
 
             return Ok(order);
+        }
+
+        [HttpDelete("{orderId:int}")]
+        public async Task<IActionResult> DeleteOrder(int orderId)
+        {
+            var result = await _orderService.DeleteOrder(orderId);
+            if (result == false)
+                return NotFound();
+            
+            return NoContent();
         }
     }
 }

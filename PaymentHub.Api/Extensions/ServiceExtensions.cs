@@ -15,7 +15,7 @@ using PayPalIntegration.Infrastructure.Repositories;
 namespace PayPalIntegration.Application.Extensions
 {
     public static class ServiceExtensions
-    {
+    {   
         public static void AddServices(this IServiceCollection services)
         {
             services.AddCors(options =>
@@ -23,7 +23,7 @@ namespace PayPalIntegration.Application.Extensions
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins(["http://localhost:3000", "http://127.0.0.1:5500"])
+                        builder.WithOrigins(["http://localhost:5173", "http://127.0.0.1:5500", "https://localhost:7289"])
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();

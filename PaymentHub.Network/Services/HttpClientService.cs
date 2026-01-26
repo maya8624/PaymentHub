@@ -4,7 +4,7 @@ using System.Net.Http.Json;
 
 namespace PaymentHub.Network.Services
 {
-    public class HttpRequestSender : IHttpRequestSender
+    public class HttpRequestSender : IHttpClientService
     {
         private readonly IHttpClientFactory _httpClient;
         private readonly ILogger<PayPalAuthService> _logger;

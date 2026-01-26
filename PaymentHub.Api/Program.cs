@@ -9,6 +9,8 @@ using System.Text.Json;
 using PaymentHub.Network;
 using PaymentHub.Api.Extensions;
 using System.Text.Json.Serialization;
+using PaymentHub.Application.Interfaces;
+using PaymentHub.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

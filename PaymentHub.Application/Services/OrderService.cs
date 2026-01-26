@@ -5,6 +5,7 @@ using PaymentHub.Infrastructure.Responses;
 using PayPalIntegration.Application.Interfaces;
 using PayPalIntegration.Domain.Entities;
 using PayPalIntegration.Infrastructure.Interfaces;
+using System.Drawing;
 
 namespace PayPalIntegration.Application.Services
 {
@@ -50,7 +51,7 @@ namespace PayPalIntegration.Application.Services
             var orders = await _orderRepository.GetOrdersForUser(userId);
             return orders;
         }
-
+        
         public async Task<OrderResponse> CreateOrder(int userId, string frontendIdempotencyKey, List<CreateOrderItemRequest> items)
         {
             var existing = await _orderRepository
@@ -81,6 +82,20 @@ namespace PayPalIntegration.Application.Services
             await _uow.SaveChanges();
 
             return MapToOrderResponse(order);
+        }
+
+        // Deletes an order by its ID.
+        // Returns true if the order was found and deleted, false otherwise.
+        public async Task<bool> DeleteOrder(int orderId)
+        {
+            var order = await _orderRepository.Find(orderId);
+            if (order == null) 
+                return false;
+            
+            _orderRepository.Delete(order);
+            await _uow.SaveChanges();
+
+            return true;
         }
 
         private static OrderResponse MapToOrderResponse(Order order)

@@ -24,7 +24,7 @@ namespace PaymentHub.Application.Services
     public class PayPalService : IPayPalService
     {
         private readonly IPayPalAuthService _authService;
-        private readonly IHttpRequestSender _httpRequestSender;
+        private readonly IHttpClientService _httpClientService;
         private readonly ILogger<PayPalAuthService> _logger;
         private readonly IOrderRepository _orderRepository;
         private readonly IPaymentRepository _paymentRepository;
@@ -38,7 +38,7 @@ namespace PaymentHub.Application.Services
             IOrderRepository orderRepository,
             IPaymentRepository paymentRepository,
             IOptions<PayPalSettings> settings,
-            IHttpRequestSender httpRequestSender,
+            IHttpClientService httpClientService,
             IRefundRepository refundRepository,
             IUnitOfWork uow)
         {
@@ -47,7 +47,7 @@ namespace PaymentHub.Application.Services
             _orderRepository = orderRepository;
             _paymentRepository = paymentRepository;
             _settings = settings.Value;
-            _httpRequestSender = httpRequestSender;
+            _httpClientService = httpClientService;
             _refundRepository = refundRepository;
             _uow = uow;
         }
@@ -67,7 +67,7 @@ namespace PaymentHub.Application.Services
 
             var accessToken = await _authService.GetAccessToken();
             var request = BuildCreateRequest(order, payment.BackendIdempotencyKey, accessToken);
-            var result = await _httpRequestSender.ExecuteRequest<PayPalOrderResponse>(request);
+            var result = await _httpClientService.ExecuteRequest<PayPalOrderResponse>(request);
             
             var approveUrl = ValidatePayPalCreateOrderResult(result);
             await UpdatePayment(payment, result.Id);
@@ -102,7 +102,7 @@ namespace PaymentHub.Application.Services
 
             var accessToken = await _authService.GetAccessToken();
             var request = BuildCaptureRequest(payment.ProviderOrderId, payment.BackendIdempotencyKey, accessToken);
-            var response = await _httpRequestSender.ExecuteRequest<PayPalCaptureResponse>(request);
+            var response = await _httpClientService.ExecuteRequest<PayPalCaptureResponse>(request);
 
             await UpdateCaptureResult(payment, response);
             return response;
@@ -118,7 +118,7 @@ namespace PaymentHub.Application.Services
             var options = BuildRefundRequest(payment, amount, idempotencyKey, accessToken);
 
             var request = HttpRequestFactory.CreateHttpRequestMessage(options);
-            var response = await _httpRequestSender.ExecuteRequest<PayPalRefundResponse>(request);
+            var response = await _httpClientService.ExecuteRequest<PayPalRefundResponse>(request);
 
             var refund = CreateRefundRecord(payment, amount, response, idempotencyKey);
             await _refundRepository.Create(refund);

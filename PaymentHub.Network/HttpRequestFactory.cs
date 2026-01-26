@@ -23,10 +23,9 @@ namespace PaymentHub.Network
             {
                 request.Headers.Authorization = new AuthenticationHeaderValue(AuthScheme.Bearer.ToString(), options.AuthToken);
             }
-
-            if (options.Content != null)
+            else
             {
-                request.Content = options.Content;
+                request.Headers.Authorization = null;
             }
 
             if (options.Headers != null)
@@ -39,6 +38,11 @@ namespace PaymentHub.Network
             {
                 request.Content = new StringContent(JsonSerializer.Serialize(options.Body), Encoding.UTF8, "application/json");
             }
+            else if (options.Content != null)
+            {
+                request.Content = options.Content;
+            }
+
 
             return request;
         }
