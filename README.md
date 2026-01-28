@@ -28,5 +28,6 @@ The architecture:
   - Ensuring Transactional Idempotency
   - Implementing a Fail-Closed Security Policy
   
-<img width="1470" height="776" alt="image" src="https://github.com/user-attachments/assets/6389e65e-1785-4711-91d8-c85d95d019fc" />
+<img width="1453" height="575" alt="image" src="https://github.com/user-attachments/assets/5b55961b-3872-4042-9322-23fd575d49e4" />
+
 ⚠️ Note: This project is still a work in progress. Features are being expanded, and improvements are ongoing to support more payment providers and robust error handling and testing.
