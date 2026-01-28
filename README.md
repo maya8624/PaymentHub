@@ -1,30 +1,27 @@
-This project is a scalable, testable, and secure payment system designed to handle online transactions.
-It supports the full payment lifecycle, including order creation, payment approval, fund capture, and refunds.
-The architecture is built with extensibility in mind, allowing additional payment providers to be integrated in the future.
-Currently, the system integrates with PayPal Sandbox for testing and development purposes.
+PaymentHub AI is an enterprise-grade payment orchestration engine built on .NET 10. Designed for scalability and high-security financial workflows, 
+the system manages the complete transaction lifecycle—from idempotent order creation to fund capture and multi-provider refunds.
+The architecture features a Python-based AI Sidecar for real-time fraud assessment and leverages a Provider-Agnostic design. 
+This allows the platform to seamlessly switch between PayPal Sandbox and Westpac PayWay via a unified interface, ensuring the system is ready
+for global card processing and bank-grade integration.
 
-1. Features
-- **[Completed]** Create and manage orders
-- **[Completed]** Approve and capture payments
-- **[Completed]** Idempotency support
-- **[Completed]** Refund transactions
-- **[In Progress]** Implementing Unit Tests using xUnit and moq
-- **[In Progress]** Frontend: In progress [[Visit payment-ui](https://github.com/maya8624/payment-ui)]
+1. Feature,Status,Technology
+- **[In Progress]** PayPal Sandbox Integration
+- **[In Progress]** Intelligent Fraud Detection: Python(FastAPI) / XGBoost
+- **[In Progress]** Transaction Idempotency: Custom Header Validation
+- **[In Progress]** Frontend UI, React 19 + Tailwind CSS: [[Visit payment-ui](https://github.com/maya8624/payment-ui)]
+- **[In Progress]** Unit Testing & Mocking: xUnit and moq
+- **[Planned]** Direct Card Payments: Westpac PayWay API
 - **[Planned]** Webhook support for real-time updates: Planned
-- **[Planned]** Authentication
-- **[Planned]** Azure deployment 
-  
+- **[Planned]** Support Chatbot (RAG): Azure OpenAI + AI Search
+- **[Planned]** Cloud Security: Azure Key Vault / Managed Identity
+- **[Planned]** Infrastructure: App Service / Key Vault / SQL
+
 
 2. Technologies
-- C# .NET 8 / ASP.NET Core Web API
-- Entity Framework Core
-- Azure App Service, Key Vault, SQL
-- xUnit
-- PayPal Sandbox API
-- FluentValidation
-- React for front-end
-- Swagger
+- Backend: .NET 10, EF Core, Azure SQL, Entity Framework Core, FluentValidation, Swagger.
+- AI/Python: FastAPI, XGBoost, Azure OpenAI.
+- Cloud/Data: Azure AI Search, SQL Server, Key Vault.
+- Frontend: React 19, Tailwind CSS.
 - <img width="1470" height="776" alt="image" src="https://github.com/user-attachments/assets/6389e65e-1785-4711-91d8-c85d95d019fc" />
-
   
 ⚠️ Note: This project is still a work in progress. Features are being expanded, and improvements are ongoing to support more payment providers and robust error handling and testing.
