@@ -18,9 +18,9 @@ The architecture:
   - **[Planned]** Infrastructure: App Service / Key Vault / SQL
 
 2. Technologies
-  - Backend: .NET 10, EF Core, Azure SQL, Entity Framework Core, FluentValidation, Swagger.
-  - AI/Python: FastAPI, XGBoost, Azure OpenAI.
-  - Cloud/Data: Azure AI Search, SQL Server, Key Vault.
+  - Backend: .NET 10, EF Core, Entity Framework Core, FluentValidation, Swagger.
+  - AI/Python: FastAPI, XGBoost.
+  - Cloud: Azure AI Search, Azure OpenAI, Azure SQL, Azure Key Vault, Azure Blob Storage
   - Frontend: React 19, Tailwind CSS.
 
 3. Technical Challenges & Solutions
