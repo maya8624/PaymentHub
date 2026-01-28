@@ -22,11 +22,11 @@ The architecture:
   - AI/Python: FastAPI, XGBoost, Azure OpenAI.
   - Cloud/Data: Azure AI Search, SQL Server, Key Vault.
   - Frontend: React 19, Tailwind CSS.
-  - <img width="1470" height="776" alt="image" src="https://github.com/user-attachments/assets/6389e65e-1785-4711-91d8-c85d95d019fc" />
 
 3. Technical Challenges & Solutions
   - Cross-Language Service Coordination (The Sidecar Pattern)
   - Ensuring Transactional Idempotency
   - Implementing a Fail-Closed Security Policy
   
+<img width="1470" height="776" alt="image" src="https://github.com/user-attachments/assets/6389e65e-1785-4711-91d8-c85d95d019fc" />
 ⚠️ Note: This project is still a work in progress. Features are being expanded, and improvements are ongoing to support more payment providers and robust error handling and testing.
