@@ -33,7 +33,7 @@ namespace PayPalIntegration.Application.Extensions
             services.AddHttpClient();
             services.AddControllers();
 
-            services.AddScoped<IHttpRequestSender, HttpRequestSender>();
+            services.AddScoped<IHttpClientService, HttpClientService>();
             services.AddScoped<IPayPalAuthService, PayPalAuthService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IPaymentService, PaymentServcie>();

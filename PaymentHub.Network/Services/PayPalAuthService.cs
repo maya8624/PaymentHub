@@ -11,13 +11,13 @@ namespace PaymentHub.Network.Services
 {
     public class PayPalAuthService : IPayPalAuthService
     {
-        private readonly IHttpRequestSender _httpRequestSender;
+        private readonly IHttpClientService _httClientService;
         private readonly ILogger<PayPalAuthService> _logger;
         private readonly PayPalSettings _settings;
 
-        public PayPalAuthService(IHttpRequestSender httpRequestSender, ILogger<PayPalAuthService> logger, IOptions<PayPalSettings> settings)
+        public PayPalAuthService(IHttpClientService httClientService, ILogger<PayPalAuthService> logger, IOptions<PayPalSettings> settings)
         {
-            _httpRequestSender = httpRequestSender;
+            _httClientService = httClientService;
             _logger = logger;
             _settings = settings.Value;
         }
@@ -28,7 +28,7 @@ namespace PaymentHub.Network.Services
             var options = BuildTokenRequest();
             var request = HttpRequestFactory.CreateHttpRequestMessage(options);
 
-            var response = await _httpRequestSender.ExecuteRequest<PayPalTokenResponse>(request);
+            var response = await _httClientService.ExecuteRequest<PayPalTokenResponse>(request);
             var token = response?.AccessToken;
 
             if (string.IsNullOrWhiteSpace(token))
