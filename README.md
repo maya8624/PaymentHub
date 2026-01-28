@@ -3,7 +3,7 @@ The core objective is to provide a scalable, provider-agnostic platform that man
 
 The architecture:
   - Security: A Python-based AI Sidecar that performs real-time fraud assessment using XGBoost, ensuring bank-grade security before any capital is moved.
-  - Support: An integrated RAG (Retrieval-Augmented Generation) ChatBot powered by Azure OpenAI and Azure AI Search. This provides context-aware, automated customer assistance by grounding LLM responses in proprietary transaction documentation.
+  - Support: An integrated RAG (Retrieval-Augmented Generation) ChatBot powered by Azure OpenAI and Azure AI Search.
 
 1. Feature, Status
   - **[In Progress]** PayPal Sandbox Integration
