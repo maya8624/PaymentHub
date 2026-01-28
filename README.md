@@ -5,13 +5,13 @@ The architecture:
   - Security: A Python-based AI Sidecar that performs real-time fraud assessment using XGBoost, ensuring bank-grade security before any capital is moved.
   - Support: An integrated RAG (Retrieval-Augmented Generation) ChatBot powered by Azure OpenAI and Azure AI Search. This provides context-aware, automated customer assistance by grounding LLM responses in proprietary transaction documentation.
 
-1. Feature,Status,Technology
+1. Feature, Status
   - **[In Progress]** PayPal Sandbox Integration
   - **[In Progress]** Intelligent Fraud Detection: Python(FastAPI) / XGBoost
   - **[In Progress]** Transaction Idempotency: Custom Header Validation
-  - **[In Progress]** Frontend UI, React 19 + Tailwind CSS: [[Visit payment-ui](https://github.com/maya8624/payment-ui)]
+  - **[In Progress]** Frontend UI, React: [[Visit payment-ui](https://github.com/maya8624/payment-ui)]
   - **[In Progress]** Unit Testing & Mocking: xUnit and moq
-  - **[Planned]** Direct Card Payments: Westpac PayWay API
+  - **[Planned]** Direct Card Payments Integration: Westpac PayWay API
   - **[Planned]** Webhook support for real-time updates: Planned
   - **[Planned]** Support Chatbot (RAG): Azure OpenAI + AI Search
   - **[Planned]** Cloud Security: Azure Key Vault / Managed Identity
