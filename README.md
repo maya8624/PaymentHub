@@ -9,7 +9,7 @@ The architecture:
   - **[In Progress]** PayPal Sandbox Integration
   - **[In Progress]** Intelligent Fraud Detection: Python(FastAPI) / XGBoost
   - **[In Progress]** Transaction Idempotency: Custom Header Validation
-  - **[In Progress]** Frontend UI, React: [[Visit payment-ui](https://github.com/maya8624/payment-ui)]
+  - **[In Progress]** Frontend UI, React: [[Visit payment-ui](https://github.com/maya8624/nexus-pay-ui)]
   - **[In Progress]** Unit Testing & Mocking: xUnit and moq
   - **[Planned]** Direct Card Payments Integration: Westpac PayWay API
   - **[Planned]** Webhook support for real-time updates: Planned
