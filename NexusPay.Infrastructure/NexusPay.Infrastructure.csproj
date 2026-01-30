@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PaymentHub.Domain\PaymentHub.Domain.csproj" />
+    <ProjectReference Include="..\NexusPay.Domain\NexusPay.Domain.csproj" />
   </ItemGroup>
 
 </Project>

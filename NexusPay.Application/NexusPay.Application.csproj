@@ -12,9 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PaymentHub.Domain\PaymentHub.Domain.csproj" />
-    <ProjectReference Include="..\PaymentHub.Infrastructure\PaymentHub.Infrastructure.csproj" />
-    <ProjectReference Include="..\PaymentHub.Network\PaymentHub.Network.csproj" />
+    <ProjectReference Include="..\NexusPay.Domain\NexusPay.Domain.csproj" />
+    <ProjectReference Include="..\NexusPay.Infrastructure\NexusPay.Infrastructure.csproj" />
+    <ProjectReference Include="..\NexusPay.Network\NexusPay.Network.csproj" />
   </ItemGroup>
 
   <ItemGroup>

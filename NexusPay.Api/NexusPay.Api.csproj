@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PaymentHub.Application\PaymentHub.Application.csproj" />
-    <ProjectReference Include="..\PaymentHub.Infrastructure\PaymentHub.Infrastructure.csproj" />
+    <ProjectReference Include="..\NexusPay.Application\NexusPay.Application.csproj" />
+    <ProjectReference Include="..\NexusPay.Infrastructure\NexusPay.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
