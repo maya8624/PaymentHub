@@ -1,13 +1,13 @@
-﻿using PaymentHub.Application.Dtos;
-using PaymentHub.Application.Exceptions;
-using PaymentHub.Domain.Entities;
-using PaymentHub.Infrastructure.Responses;
-using PayPalIntegration.Application.Interfaces;
-using PayPalIntegration.Domain.Entities;
-using PayPalIntegration.Infrastructure.Interfaces;
+﻿using NexusPay.Application.Dtos;
+using NexusPay.Application.Exceptions;
+using NexusPay.Domain.Entities;
+using NexusPay.Infrastructure.Responses;
+using NexusPay.Application.Interfaces;
+using NexusPay.Domain.Entities;
+using NexusPay.Infrastructure.Interfaces;
 using System.Drawing;
 
-namespace PayPalIntegration.Application.Services
+namespace NexusPay.Application.Services
 {
     public class OrderService : IOrderService
     {

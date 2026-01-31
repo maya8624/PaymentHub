@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using PaymentHub.Application.Dtos;
-using PayPalIntegration.Domain.Enums;
+using NexusPay.Application.Dtos;
+using NexusPay.Domain.Enums;
 
-namespace PaymentHub.Application.Dtos
+namespace NexusPay.Application.Dtos
 {
     public class CreateOrderRequest
     {

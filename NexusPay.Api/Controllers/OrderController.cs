@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PaymentHub.Application.Dtos;
-using PaymentHub.Infrastructure.Responses;
-using PayPalIntegration.Application.Interfaces;
+using NexusPay.Application.Dtos;
+using NexusPay.Infrastructure.Responses;
+using NexusPay.Application.Interfaces;
 using System.Security.Claims;
 
-namespace PayPalIntegration.Controllers
+namespace NexusPay.Controllers
 {
     [ApiController]
     [Route("api/order")]

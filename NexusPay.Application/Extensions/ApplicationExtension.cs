@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Application.Extensions
+namespace NexusPay.Application.Extensions
 {
     public static class ApplicationExtension
     {

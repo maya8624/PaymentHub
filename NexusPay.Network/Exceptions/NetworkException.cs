@@ -1,5 +1,5 @@
 ﻿
-namespace PaymentHub.Application.Exceptions
+namespace NexusPay.Application.Exceptions
 {
     public abstract class NetworkException : Exception
     {

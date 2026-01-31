@@ -1,11 +1,11 @@
-﻿using PaymentHub.Application.Constants;
+﻿using NexusPay.Application.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Application.Exceptions
+namespace NexusPay.Application.Exceptions
 {
     public class PaymentException : AppException
     {

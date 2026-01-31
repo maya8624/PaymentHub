@@ -1,6 +1,6 @@
-﻿using PaymentHub.Application.Constants;
+﻿using NexusPay.Application.Constants;
 
-namespace PaymentHub.Application.Exceptions
+namespace NexusPay.Application.Exceptions
 {
     public class NotFoundException : AppException
     {

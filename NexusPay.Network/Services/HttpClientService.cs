@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using PaymentHub.Network.Interfaces;
+using NexusPay.Network.Interfaces;
 using System.Net.Http.Json;
 
-namespace PaymentHub.Network.Services
+namespace NexusPay.Network.Services
 {
     public class HttpClientService : IHttpClientService
     {

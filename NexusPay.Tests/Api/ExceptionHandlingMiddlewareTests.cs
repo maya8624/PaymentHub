@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
-using PaymentHub.Application.Constants;
-using PaymentHub.Application.Dtos;
-using PaymentHub.Api.Middleware;
-using PaymentHub.Application.Exceptions;
+using NexusPay.Application.Constants;
+using NexusPay.Application.Dtos;
+using NexusPay.Api.Middleware;
+using NexusPay.Application.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 using Xunit;
 using Microsoft.Extensions.Logging;
 using Moq;
-using PaymentHub.Network.Constants;
+using NexusPay.Network.Constants;
 
-namespace PaymentHub.Tests.Api
+namespace NexusPay.Tests.Api
 {
     public class ExceptionHandlingMiddlewareTests
     {

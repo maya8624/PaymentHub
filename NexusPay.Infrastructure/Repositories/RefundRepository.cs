@@ -1,15 +1,15 @@
-﻿using PaymentHub.Domain.Entities;
-using PaymentHub.Infrastructure.Interfaces;
-using PayPalIntegration.Infrastructure.Persistence;
-using PayPalIntegration.Infrastructure.Repositories;
+﻿using NexusPay.Domain.Entities;
+using NexusPay.Infrastructure.Interfaces;
+using NexusPay.Infrastructure.Persistence;
+using NexusPay.Infrastructure.Repositories;
 
-namespace PaymentHub.Infrastructure.Repositories
+namespace NexusPay.Infrastructure.Repositories
 {
     public class RefundRepository : RepositoryBase<Refund>, IRefundRepository
     {
-        private readonly PayHubContext _context;
+        private readonly NexusPayContext _context;
 
-        public RefundRepository(PayHubContext context) : base(context)
+        public RefundRepository(NexusPayContext context) : base(context)
         {
             _context = context;
         }

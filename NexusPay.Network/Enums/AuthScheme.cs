@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Network.Enums
+namespace NexusPay.Network.Enums
 {
     public enum AuthScheme
     {

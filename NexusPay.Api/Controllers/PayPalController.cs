@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PaymentHub.Application.Dtos;
-using PaymentHub.Application.Interfaces;
+using NexusPay.Application.Dtos;
+using NexusPay.Application.Interfaces;
 
-namespace PaymentHub.Api.Controllers
+namespace NexusPay.Api.Controllers
 {
     [ApiController]
     [Route("api/paypal")]

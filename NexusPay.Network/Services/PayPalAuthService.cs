@@ -1,13 +1,13 @@
 ﻿using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using PaymentHub.Application.Exceptions;
-using PaymentHub.Network.Enums;
-using PaymentHub.Network.Extensions;
-using PaymentHub.Network.Interfaces;
-using PaymentHub.Network.Responses;
+using NexusPay.Application.Exceptions;
+using NexusPay.Network.Enums;
+using NexusPay.Network.Extensions;
+using NexusPay.Network.Interfaces;
+using NexusPay.Network.Responses;
 
-namespace PaymentHub.Network.Services
+namespace NexusPay.Network.Services
 {
     public class PayPalAuthService : IPayPalAuthService
     {

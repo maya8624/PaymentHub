@@ -1,7 +1,7 @@
-﻿using PaymentHub.Application.Dtos;
-using PaymentHub.Infrastructure.Responses;
+﻿using NexusPay.Application.Dtos;
+using NexusPay.Infrastructure.Responses;
 
-namespace PayPalIntegration.Application.Interfaces
+namespace NexusPay.Application.Interfaces
 {
     public interface IOrderService
     {

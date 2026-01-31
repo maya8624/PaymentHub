@@ -1,19 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PaymentHub.Application.Exceptions;
-using PaymentHub.Application.Interfaces;
-using PaymentHub.Domain.Enums;
-using PaymentHub.Infrastructure.Interfaces;
-using PayPalIntegration.Domain.Entities;
-using PayPalIntegration.Domain.Enums;
-using PayPalIntegration.Infrastructure.Interfaces;
+using NexusPay.Application.Exceptions;
+using NexusPay.Application.Interfaces;
+using NexusPay.Domain.Enums;
+using NexusPay.Infrastructure.Interfaces;
+using NexusPay.Domain.Entities;
+using NexusPay.Domain.Enums;
+using NexusPay.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Application.Services
+namespace NexusPay.Application.Services
 {
     public class PaymentServcie : IPaymentService
     {

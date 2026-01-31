@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PayPalIntegration.Infrastructure.Persistence;
+using NexusPay.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace PaymentHub.Infrastructure.Migrations
+namespace NexusPay.Infrastructure.Migrations
 {
-    [DbContext(typeof(PayHubContext))]
+    [DbContext(typeof(NexusPayContext))]
     partial class PayHubContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

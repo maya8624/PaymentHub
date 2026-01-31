@@ -1,20 +1,19 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
-using PaymentHub.Application.Exceptions;
-using PayPalIntegration.Application.Extensions;
-using PayPalIntegration.Infrastructure.Persistence;
+using NexusPay.Api.Extensions;
+using NexusPay.Api.Extensions;
+using NexusPay.Network;
+using NexusPay.Application.Extensions;
+using NexusPay.Infrastructure.Persistence;
 using Swashbuckle.AspNetCore.Filters;
-using System.Text.Json;
-using PaymentHub.Network;
-using PaymentHub.Api.Extensions;
 using System.Text.Json.Serialization;
-using PaymentHub.Application.Interfaces;
-using PaymentHub.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<PayHubContext>(options =>
+builder.Services.AddDbContext<NexusPayContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddServices();
@@ -29,7 +28,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "PaymentHub", Version = "v1" });
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "NexusPay", Version = "v1" });
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
         Description = "Standard Authorization header using the Bearer scheme",
@@ -43,6 +42,8 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddControllers()
     .AddJsonOptions(x => x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
+builder.Services.AddGoogleAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
@@ -59,10 +60,27 @@ app.UseCors();
 
 app.UseHttpsRedirection();
 
-//TODO: Remove comment when actual jwt ready 
-//app.UseAuthentication();
+app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.MapGet("/login", () =>
+{
+    return Results.Challenge(
+        new AuthenticationProperties
+        {
+            RedirectUri = "http://localhost:5173"
+        },
+        new[] { GoogleDefaults.AuthenticationScheme }
+    );
+});
+
+app.MapGet("/me", (HttpContext ctx) =>
+{
+    return ctx.User.Identity?.IsAuthenticated == true
+        ? Results.Ok(ctx.User.Claims.Select(c => new { c.Type, c.Value }))
+        : Results.Unauthorized();
+});
 
 app.MapControllers();
 

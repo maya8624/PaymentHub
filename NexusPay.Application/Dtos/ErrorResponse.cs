@@ -1,4 +1,4 @@
-﻿namespace PaymentHub.Application.Dtos
+﻿namespace NexusPay.Application.Dtos
 {
     public sealed class ErrorResponse
     {

@@ -1,13 +1,13 @@
-﻿using PayPalIntegration.Domain.Entities;
-using PayPalIntegration.Domain.Enums;
-using PayPalIntegration.Infrastructure.Interfaces;
+﻿using NexusPay.Domain.Entities;
+using NexusPay.Domain.Enums;
+using NexusPay.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Infrastructure.Interfaces
+namespace NexusPay.Infrastructure.Interfaces
 {
     public interface IPaymentRepository : IRepositoryBase<Payment>
     {

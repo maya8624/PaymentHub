@@ -1,11 +1,11 @@
-﻿using PayPalIntegration.Domain.Entities;
+﻿using NexusPay.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Application.Interfaces
+namespace NexusPay.Application.Interfaces
 {
     public interface IPaymentService
     {

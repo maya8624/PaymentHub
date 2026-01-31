@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Application.Dtos
+namespace NexusPay.Application.Dtos
 {
     public class PayPalCaptureResponse
     {

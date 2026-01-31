@@ -1,12 +1,12 @@
-﻿using PaymentHub.Infrastructure.Responses;
-using PayPalIntegration.Domain.Entities;
+﻿using NexusPay.Infrastructure.Responses;
+using NexusPay.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PayPalIntegration.Infrastructure.Interfaces
+namespace NexusPay.Infrastructure.Interfaces
 {
     public interface IOrderRepository : IRepositoryBase<Order>
     {

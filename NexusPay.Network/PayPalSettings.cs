@@ -1,4 +1,4 @@
-﻿namespace PaymentHub.Network
+﻿namespace NexusPay.Network
 {
     public class PayPalSettings
     {

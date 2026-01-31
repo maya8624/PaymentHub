@@ -1,13 +1,13 @@
 ﻿using Azure.Core;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using PaymentHub.Application.Dtos;
-using PaymentHub.Application.Interfaces;
-using PaymentHub.Network;
-using PaymentHub.Network.Enums;
-using PaymentHub.Network.Interfaces;
-using PaymentHub.Network.Services;
-using PayPalIntegration.Domain.Entities;
+using NexusPay.Application.Dtos;
+using NexusPay.Application.Interfaces;
+using NexusPay.Network;
+using NexusPay.Network.Enums;
+using NexusPay.Network.Interfaces;
+using NexusPay.Network.Services;
+using NexusPay.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Application.Services
+namespace NexusPay.Application.Services
 {
     public class FraudDetectionService : IFraudDetectionService
     {

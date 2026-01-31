@@ -1,11 +1,11 @@
-﻿using PayPalIntegration.Domain.Enums;
+﻿using NexusPay.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Application.Dtos
+namespace NexusPay.Application.Dtos
 {
     public class OrderResponse
     {

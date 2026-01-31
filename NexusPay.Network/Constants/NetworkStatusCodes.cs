@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Network.Constants
+namespace NexusPay.Network.Constants
 {
     public class NetworkStatusCodes
     {

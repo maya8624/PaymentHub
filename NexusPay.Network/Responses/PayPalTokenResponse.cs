@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Network.Responses
+namespace NexusPay.Network.Responses
 {
     public class PayPalTokenResponse
     {

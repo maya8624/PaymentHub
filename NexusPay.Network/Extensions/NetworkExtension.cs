@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Network.Extensions
+namespace NexusPay.Network.Extensions
 {
     public static class NetworkExtension
     {

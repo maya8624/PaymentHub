@@ -1,8 +1,6 @@
-﻿using PaymentHub.Domain.Entities;
-using PaymentHub.Domain.Enums;
-using PayPalIntegration.Domain.Enums;
+﻿using NexusPay.Domain.Enums;
 
-namespace PayPalIntegration.Domain.Entities
+namespace NexusPay.Domain.Entities
 {
     public class Payment
     {

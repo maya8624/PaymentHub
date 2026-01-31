@@ -1,21 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PaymentHub.Infrastructure.Responses;
-using PayPalIntegration.Domain.Entities;
-using PayPalIntegration.Infrastructure.Interfaces;
-using PayPalIntegration.Infrastructure.Persistence;
+using NexusPay.Infrastructure.Responses;
+using NexusPay.Domain.Entities;
+using NexusPay.Infrastructure.Interfaces;
+using NexusPay.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PayPalIntegration.Infrastructure.Repositories
+namespace NexusPay.Infrastructure.Repositories
 {
     public class OrderRepository : RepositoryBase<Order>, IOrderRepository
     {
-        private readonly PayHubContext _context;
+        private readonly NexusPayContext _context;
 
-        public OrderRepository(PayHubContext context) : base(context) 
+        public OrderRepository(NexusPayContext context) : base(context) 
         {
             _context = context;
         }

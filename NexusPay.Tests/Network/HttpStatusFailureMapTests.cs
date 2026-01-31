@@ -1,5 +1,5 @@
-﻿using PaymentHub.Network;
-using PaymentHub.Network.Enums;
+﻿using NexusPay.Network;
+using NexusPay.Network.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace PaymentHub.Tests.Network
+namespace NexusPay.Tests.Network
 {
     public class HttpStatusFailureMapTests
     {

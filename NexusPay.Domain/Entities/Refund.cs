@@ -1,12 +1,11 @@
-﻿using PaymentHub.Domain.Enums;
-using PayPalIntegration.Domain.Entities;
+﻿using NexusPay.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Domain.Entities
+namespace NexusPay.Domain.Entities
 {
     public class Refund
     {

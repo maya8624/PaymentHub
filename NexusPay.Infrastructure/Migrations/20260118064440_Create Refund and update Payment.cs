@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PaymentHub.Infrastructure.Migrations
+namespace NexusPay.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class CreateRefundandupdatePayment : Migration

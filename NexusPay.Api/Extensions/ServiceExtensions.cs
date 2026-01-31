@@ -1,18 +1,18 @@
 ﻿using FluentValidation;
-using PaymentHub.Application.Dtos;
-using PaymentHub.Application.Interfaces;
-using PaymentHub.Application.Services;
-using PaymentHub.Infrastructure.Interfaces;
-using PaymentHub.Infrastructure.Repositories;
-using PaymentHub.Network.Interfaces;
-using PaymentHub.Network.Services;
-using PayPalIntegration.Application.Interfaces;
-using PayPalIntegration.Application.Services;
-using PayPalIntegration.Infrastructure;
-using PayPalIntegration.Infrastructure.Interfaces;
-using PayPalIntegration.Infrastructure.Repositories;
+using NexusPay.Application.Dtos;
+using NexusPay.Application.Interfaces;
+using NexusPay.Application.Services;
+using NexusPay.Infrastructure.Interfaces;
+using NexusPay.Infrastructure.Repositories;
+using NexusPay.Network.Interfaces;
+using NexusPay.Network.Services;
+using NexusPay.Application.Interfaces;
+using NexusPay.Application.Services;
+using NexusPay.Infrastructure;
+using NexusPay.Infrastructure.Interfaces;
+using NexusPay.Infrastructure.Repositories;
 
-namespace PayPalIntegration.Application.Extensions
+namespace NexusPay.Application.Extensions
 {
     public static class ServiceExtensions
     {   

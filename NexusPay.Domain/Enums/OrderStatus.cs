@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PayPalIntegration.Domain.Enums
+namespace NexusPay.Domain.Enums
 {
     public enum OrderStatus
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PaymentHub.Api.Middleware;
-using PaymentHub.Application.Dtos;
-using PaymentHub.Application.Exceptions;
+using NexusPay.Api.Middleware;
+using NexusPay.Application.Dtos;
+using NexusPay.Application.Exceptions;
 
-namespace PaymentHub.Api.Extensions
+namespace NexusPay.Api.Extensions
 {
     public static class ExceptionExtensions
     {

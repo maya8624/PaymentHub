@@ -1,9 +1,9 @@
-﻿using PaymentHub.Domain.Entities;
-using PayPalIntegration.Domain.Entities;
-using PayPalIntegration.Infrastructure.Interfaces;
+﻿using NexusPay.Domain.Entities;
+using NexusPay.Domain.Entities;
+using NexusPay.Infrastructure.Interfaces;
 using System;
 
-namespace PaymentHub.Infrastructure.Interfaces
+namespace NexusPay.Infrastructure.Interfaces
 {
     public interface IRefundRepository : IRepositoryBase<Refund>
     {

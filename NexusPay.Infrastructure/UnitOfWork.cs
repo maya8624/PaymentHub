@@ -1,19 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PayPalIntegration.Infrastructure.Interfaces;
-using PayPalIntegration.Infrastructure.Persistence;
+using NexusPay.Infrastructure.Interfaces;
+using NexusPay.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PayPalIntegration.Infrastructure
+namespace NexusPay.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly PayHubContext _context;
+        private readonly NexusPayContext _context;
 
-        public UnitOfWork(PayHubContext context)
+        public UnitOfWork(NexusPayContext context)
         {
             _context = context;
         }

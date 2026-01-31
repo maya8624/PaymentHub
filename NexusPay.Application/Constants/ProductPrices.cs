@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PaymentHub.Application.Constants
+namespace NexusPay.Application.Constants
 {
     public class ProductPrices
     {

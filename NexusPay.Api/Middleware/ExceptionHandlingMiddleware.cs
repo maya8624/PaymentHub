@@ -1,6 +1,6 @@
-﻿using PaymentHub.Api.Extensions;
+﻿using NexusPay.Api.Extensions;
 
-namespace PaymentHub.Api.Middleware
+namespace NexusPay.Api.Middleware
 {
     public class ExceptionHandlingMiddleware
     {

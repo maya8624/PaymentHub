@@ -1,7 +1,7 @@
-﻿using PaymentHub.Api.Middleware;
+﻿using NexusPay.Api.Middleware;
 using System.Runtime.CompilerServices;
 
-namespace PaymentHub.Api.Extensions
+namespace NexusPay.Api.Extensions
 {
     public static class MiddlewareExtensions
     {

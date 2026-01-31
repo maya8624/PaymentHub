@@ -1,7 +1,7 @@
 ﻿
-using PaymentHub.Network.Constants;
+using NexusPay.Network.Constants;
 
-namespace PaymentHub.Application.Exceptions
+namespace NexusPay.Application.Exceptions
 {
     public class PayPalException : NetworkException
     {

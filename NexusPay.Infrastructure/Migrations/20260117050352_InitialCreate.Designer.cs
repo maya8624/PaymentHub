@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PayPalIntegration.Infrastructure.Persistence;
+using NexusPay.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace PaymentHub.Infrastructure.Migrations
+namespace NexusPay.Infrastructure.Migrations
 {
-    [DbContext(typeof(PayHubContext))]
+    [DbContext(typeof(NexusPayContext))]
     [Migration("20260117050352_InitialCreate")]
     partial class InitialCreate
     {

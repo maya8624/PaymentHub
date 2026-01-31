@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PayPalIntegration.Infrastructure.Interfaces;
-using PayPalIntegration.Infrastructure.Persistence;
+using NexusPay.Infrastructure.Interfaces;
+using NexusPay.Infrastructure.Persistence;
 using System.Linq.Expressions;
 
-namespace PayPalIntegration.Infrastructure.Repositories
+namespace NexusPay.Infrastructure.Repositories
 {
     public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
-        private readonly PayHubContext _context;
+        private readonly NexusPayContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public RepositoryBase(PayHubContext context)
+        public RepositoryBase(NexusPayContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();

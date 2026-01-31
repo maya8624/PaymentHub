@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace PayPalIntegration.Infrastructure.Interfaces
+namespace NexusPay.Infrastructure.Interfaces
 {
     public interface IRepositoryBase<T> where T : class
     {

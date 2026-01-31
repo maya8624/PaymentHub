@@ -1,25 +1,25 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using PaymentHub.Application.Dtos;
-using PaymentHub.Application.Exceptions;
-using PaymentHub.Application.Interfaces;
-using PaymentHub.Domain.Enums;
-using PaymentHub.Infrastructure.Responses;
-using PaymentHub.Network;
-using PaymentHub.Network.Enums;
-using PaymentHub.Network.Extensions;
-using PaymentHub.Network.Interfaces;
-using PaymentHub.Network.Services;
-using PayPalIntegration.Domain.Entities;
-using PayPalIntegration.Domain.Enums;
-using PayPalIntegration.Infrastructure.Interfaces;
+using NexusPay.Application.Dtos;
+using NexusPay.Application.Exceptions;
+using NexusPay.Application.Interfaces;
+using NexusPay.Domain.Enums;
+using NexusPay.Infrastructure.Responses;
+using NexusPay.Network;
+using NexusPay.Network.Enums;
+using NexusPay.Network.Extensions;
+using NexusPay.Network.Interfaces;
+using NexusPay.Network.Services;
+using NexusPay.Domain.Entities;
+using NexusPay.Domain.Enums;
+using NexusPay.Infrastructure.Interfaces;
 using System.Text.Json;
-using PaymentHub.Infrastructure.Interfaces;
-using PaymentHub.Application.Extensions;
+using NexusPay.Infrastructure.Interfaces;
+using NexusPay.Application.Extensions;
 using System.Net.Http.Json;
-using PaymentHub.Domain.Entities;
+using NexusPay.Domain.Entities;
 
-namespace PaymentHub.Application.Services
+namespace NexusPay.Application.Services
 {
     public class PayPalService : IPayPalService
     {
